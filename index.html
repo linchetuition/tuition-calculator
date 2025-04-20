@@ -557,7 +557,7 @@ async function checkVersion() {
     const latest = parseInt(data.version);
 
     if (latest > currentVersion) {
-      versionDiv.innerHTML = `❗有新版（${latest}）<a href="https://linchetuition.github.io/tuition-calculator/" target="_blank">點我更新</a>`;
+      versionDiv.innerHTML = `❗有新版（${latest}），請按 Ctrl + R 或重新整理`;
       versionDiv.style.color = "red";
     } else {
       versionDiv.innerHTML = `✅ 已是最新版（${currentVersion}）`;
