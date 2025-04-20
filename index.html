@@ -562,7 +562,7 @@ async function checkVersion() {
       versionDiv.style.color = "green";
     }
   } catch (e) {
-    versionDiv.innerHTML = `⚠️ 離線中，無法檢查是否有新版<br>目前版本：v${currentVersion}`;
+    versionDiv.innerHTML = `⚠️ 離線中，無法檢查是否有新版<br>目前版本：${currentVersion}`;
     versionDiv.style.color = "orange";
   }
 }
