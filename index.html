@@ -204,6 +204,12 @@
 <label for="typeCustom">國三生/活動/自訂</label>
 <input disabled="" id="customFormula" placeholder="例如 -4000 或 *0.9" style="width: 150px; margin-left: 1em;" type="text"/>
 </div>
+<di<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
+  <span style="display:inline-block; font-weight:600; width: 5.7em;">　</span>
+  <label style="margin: 0;"><input type="checkbox" id="siblingDiscount" style="transform: scale(1.2); margin-right: 0.5em;"/> 兄弟姊妹</label>
+</div>
+
+
 <hr/>
 <div class="date-section">
 <div class="date-controls">
@@ -443,15 +449,14 @@ const customInput = document.getElementById("customFormula").value.trim();
 
 if (customType && customInput) {
   try {
-   const raw = eval(`${total}${customInput}`);
-final = Math.ceil(raw / 100) * 100;
+    const raw = eval(`${total}${customInput}`);
+    final = Math.ceil(raw / 100) * 100;
 
-if (customInput.includes("*") || customInput.includes("/")) {
-  note = `（原價 ${total.toLocaleString()} ${customInput} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()}）`;
-} else {
-  note = `（原價 ${total.toLocaleString()} ${customInput} = ${final.toLocaleString()}）`;
-}
-
+    if (customInput.includes("*") || customInput.includes("/")) {
+      note = `（原價 ${total.toLocaleString()} ${customInput} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()}）`;
+    } else {
+      note = `（原價 ${total.toLocaleString()} ${customInput} = ${final.toLocaleString()}）`;
+    }
 
   } catch (e) {
     alert("⚠️ 無效的折扣公式，請重新輸入");
@@ -471,6 +476,14 @@ if (customInput.includes("*") || customInput.includes("/")) {
   }
 }
 
+// ✅ 無論是否自訂，都在這裡加兄弟姊妹折扣
+const hasSibling = document.getElementById("siblingDiscount").checked;
+if (hasSibling) {
+  final -= 1000;
+  note += `（兄弟姊妹優惠 -1000）`;
+}
+
+
 
   let monthNoteColor = ([6, 12].includes(months)) ? "#2c3e50" : "red";
   let monthNote = `<div style="color: ${monthNoteColor}; font-weight: bold;">🗓️ 總月份：${months} 個月</div>`;
@@ -481,12 +494,19 @@ if (customInput.includes("*") || customInput.includes("/")) {
       <div style="color:#d35400;">📙 第二期（#07-12）：${term2.toLocaleString()} 元</div>
     `;
   }
-
-  document.getElementById("summary").innerHTML = `
-    <div><span style="font-weight:bold;">💰 總學費：</span>${final.toLocaleString()} 元 ${note}</div>
-    ${termNote}
+document.getElementById("summary").innerHTML = `
+  <div style="border: 2px solid #ccc; border-radius: 8px; padding: 1.2em; background-color: #fdfdfd; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+    <div style="background-color: #f7f7f7; padding: 0.5em 0.8em; border-radius: 6px; font-size: 1.2em; font-weight: bold; margin-bottom: 0.8em;">
+      💰 總學費：${final.toLocaleString()} 元
+    </div>
+    <div style="font-size: 0.95em; color: #555; margin-bottom: 0.5em;">${note}</div>
     ${monthNote}
-  `;
+    ${termNote}
+  </div>
+`;
+
+
+
 
   document.getElementById("details").innerHTML = `
     <table>
