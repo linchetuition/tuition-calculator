@@ -23,8 +23,8 @@
     - 所有與畫面有關的樣式已集中於 <style> 區塊
 
   🧠 自動更新要做的事：
-    - 請按ctrl+f搜尋 「當前版本」，更新日期後，再重新上傳github
-	- 並更新github上的verson.json裡的"version": "20250420"
+    - 請按ctrl+f搜尋 「20250420」，更新日期後，再重新上傳github
+	- 上傳後再line公告記得重新整理
 	
 -->
 <meta charset="utf-8"/>
@@ -254,7 +254,6 @@
 <h3 id="summary"></h3>
 <div id="details"></div>
 
-<div id="version-info" style="margin-top: 2em; font-weight: bold;"></div>
 
 <script>
   // 重要重要重要！！！年級學費表，若未來有更新學費改這裡即可。123指國一國二國三，分月份，依序分1科，2科，3科，4科，全科
@@ -540,41 +539,13 @@ function setStartNextNextMonth() {
 }
 
 
-// 🔧 當前版本（用日期表示）
-const currentVersion = 20250420;
-
-// 🔗 GitHub 上 version.json 的位置
-const versionUrl = "https://linchetuition.github.io/tuition-calculator/version.json";
-
-// 檢查版本函式
-async function checkVersion() {
-  const versionDiv = document.getElementById("version-info");
-  try {
-    const response = await fetch(versionUrl, { cache: "no-store" });
-    if (!response.ok) throw new Error("無法讀取版本");
-
-    const data = await response.json();
-    const latest = parseInt(data.version);
-
-    if (latest > currentVersion) {
-      versionDiv.innerHTML = `❗有新版（${latest}），請按 Ctrl + R 或重新整理`;
-      versionDiv.style.color = "red";
-    } else {
-      versionDiv.innerHTML = `✅ 已是最新版（${currentVersion}）`;
-      versionDiv.style.color = "green";
-    }
-  } catch (e) {
-    versionDiv.innerHTML = `⚠️ 離線中，無法檢查是否有新版<br>目前版本：${currentVersion}`;
-    versionDiv.style.color = "orange";
-  }
-}
-
-// 頁面載入後執行
-checkVersion();
-
-
-
-
 </script>
+<div id="details"></div>
+<div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
+<script>
+  const currentVersion = "20250420"; //更新版本記得改這裡
+  document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
+</script>
+
 </body>
 </html>
