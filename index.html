@@ -23,7 +23,7 @@
     - 所有與畫面有關的樣式已集中於 <style> 區塊
 
   🧠 更新紀錄：
-    - 2025/04/19：加入年級升級條件、自動淡出提示、自訂開始月份
+    - 2025/04/20：初版
 -->
 <meta charset="utf-8"/>
 <title>2025林澈學費計算器</title>
@@ -533,6 +533,35 @@ function setStartNextNextMonth() {
   document.getElementById("start").readOnly = true;
   document.getElementById("start").style.backgroundColor = "#f0f0f0";
 }
+<div id="versionNotice" style="font-size: 0.85em; color: #666; text-align: right; margin-top: 2em;"></div>
+
+<script>
+  const CURRENT_VERSION = "1.0.0"; // ✅ 記得修改這個為目前版本號
+  const REMOTE_VERSION_URL = "https://linchetuition.github.io/tuition-calculator/version.json";
+
+  const notice = document.getElementById("versionNotice");
+
+  async function checkVersion() {
+    try {
+      const res = await fetch(REMOTE_VERSION_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error("網路錯誤");
+
+      const data = await res.json();
+      const latest = data.version.trim();
+
+      if (latest !== CURRENT_VERSION) {
+        notice.innerHTML = `<span style="color: red;">❗有新版（v${latest}）</span>　<a href="" style="color:#2980b9;">點我更新</a>`;
+      } else {
+        notice.innerHTML = `✅ 已是最新版（v${CURRENT_VERSION}）`;
+      }
+    } catch (e) {
+      notice.innerHTML = `⚠️ 離線中，無法檢查是否有新版（目前版本 v${CURRENT_VERSION}）`;
+    }
+  }
+
+  checkVersion();
 </script>
+</script>
+
 </body>
 </html>
