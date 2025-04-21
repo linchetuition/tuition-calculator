@@ -15,7 +15,7 @@
     2. 若起始月份是 7 月 → 不升級
     3. 若區間跨過 7 月 → 自動升年級（國一→二→三）
     4. 國三最多只能算到次年 5 月
-    5. 優待與折扣可自訂輸入（如 *0.9 或 -4000）
+    5. 優待與折扣可自訂輸入（如 *0.9 或 4000）
 
   🛠️ 修改建議：
     - 若要改學費金額，請按ctrl+f搜尋 const table 開頭處
@@ -214,7 +214,7 @@ padding: 1px 10px 20px 20px;
 <label for="typeOld" style="margin-right: 1.5em;">舊生</label>
 <input id="typeCustom" name="studentType" type="radio" value="custom"/>
 <label for="typeCustom">國三生/自訂</label>
-<input disabled="" id="customFormula" placeholder="例-4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
+<input disabled="" id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
 </div>
 <di<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
   <span style="display:inline-block; font-weight:600; width: 5.7em;">　</span>
@@ -454,45 +454,71 @@ if (g > 3) g = 3;
     else if (defSub >= 3) discount = 2000;//3科以上優待2000
   }
 
-  let final = total;
-  let note = "";
- const customType = document.getElementById("typeCustom").checked;
-const customInput = document.getElementById("customFormula").value.trim();
+let final = total;
+let note = "";
+const customType = document.getElementById("typeCustom").checked;
+let rawInput = document.getElementById("customFormula").value.trim();
 
-if (customType && customInput) {
+// 🌟 替代自動補負號的版本 — 新邏輯
+function parseCustomDiscount(inputStr) {
+  const raw = inputStr.trim();
+  if (/^[*/]/.test(raw)) {
+    return { evalText: raw, displayText: raw, isFormula: true };
+  }
+  if (/^\d+(\.\d+)?$/.test(raw)) {
+    return { evalText: "-" + raw, displayText: raw, isFormula: false };
+  }
+  if (/^[+-]\d+(\.\d+)?$/.test(raw)) {
+    return { evalText: raw, displayText: raw.startsWith("-") ? raw.slice(1) : raw, isFormula: false };
+  }
+  return { evalText: raw, displayText: raw, isFormula: false };
+}
+
+const { evalText, displayText, isFormula } = parseCustomDiscount(rawInput);
+
+
+if (customType && rawInput) {
   try {
-    const raw = eval(`${total}${customInput}`);
+    const raw = eval(`${total}${evalText}`);
     final = Math.ceil(raw / 100) * 100;
 
-    if (customInput.includes("*") || customInput.includes("/")) {
-      note = `（原價 ${total.toLocaleString()} ${customInput} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()}）`;
+    if (isFormula) {
+      note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
     } else {
-      note = `（原價 ${total.toLocaleString()} ${customInput} = ${final.toLocaleString()}）`;
+      note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText})`;
     }
 
   } catch (e) {
     alert("⚠️ 無效的折扣公式，請重新輸入");
     return;
   }
-
 } else {
-  // 舊生折扣區段
+ 
+  // 舊生 / 新生 標準邏輯區
   final = total - discount;
 
   if (months === 12) {
     const raw90 = Math.floor(total * 0.9);
     final = Math.ceil(raw90 / 100) * 100;
-    note = `（原價 ${total.toLocaleString()} × 0.9 = ${raw90.toLocaleString()}，再進位為 ${final.toLocaleString()}）`;
+    note = `(原價 ${total.toLocaleString()})(年繳優待*0.9= ${raw90.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
   } else {
-    note = `（原價 ${total.toLocaleString()} - 舊生優待 ${discount}）`;
+    if (studentType === "old" && discount > 0) {
+      note = `(原價 ${total.toLocaleString()})(舊生優待 ${discount.toLocaleString()})`;
+    } else if (studentType === "new") {
+      note = `(原價 ${total.toLocaleString()})`;
+    } else {
+      note = ""; // 理論上不會進來這邊
+    }
   }
 }
+
+
 
 // ✅ 無論是否自訂，都在這裡加兄弟姊妹折扣
 const hasSibling = document.getElementById("siblingDiscount").checked;
 if (hasSibling) {
   final -= 1000;
-  note += `（兄弟姊妹優惠 -1000）`;
+  note += `（兄弟姊妹優待1000）`;
 }
 
 
