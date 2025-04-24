@@ -38,6 +38,24 @@
 
 
 <style>
+#defaultSub-buttons {
+  display: flex;
+  gap: 1em;
+  margin-top: 0em;
+}
+
+.sub-btn {
+  padding: 0.4em 1.2em;
+  background-color: #2c3e50;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.01s ease;
+}
+  #defaultSub-buttons .sub-btn.active {
+background-color: #E2B64E;
+color： white;  
+}
+
 #calculateBtn {
   background: linear-gradient(#E2B64E, #E2B64E);
   color: white;
@@ -258,13 +276,15 @@ padding: 1px 10px 20px 20px;
 <div id="warningMessage" style="color: #d35400; font-weight: bold; margin: 0em 0;"></div>
 <hr/>
 <label>🔸科目：</label>
-<select id="defaultSub">
-<option value="1">1 科</option>
-<option value="2">2 科</option>
-<option value="3">3 科</option>
-<option value="4">4 科</option>
-<option selected="" value="5">全科</option>
-</select>
+<div id="defaultSub-buttons">
+  <button type="button" class="sub-btn" data-value="1">1 科</button>
+  <button type="button" class="sub-btn" data-value="2">2 科</button>
+  <button type="button" class="sub-btn" data-value="3">3 科</button>
+  <button type="button" class="sub-btn" data-value="4">4 科</button>
+  <button type="button" class="sub-btn" data-value="5">全科</button>
+</div>
+<input type="hidden" id="defaultSub" name="defaultSub" value="5"/>
+
 <label style="font-weight: 600;"><input id="customToggle" style="transform: scale(1.2); margin-right: 0.5em;" type="checkbox"/>啟用每月個別設定</label>
 <div id="monthSettings"></div>
 <hr/>
@@ -604,6 +624,34 @@ function setStartNextNextMonth() {
   const currentVersion = "20250420"; //更新版本記得改這裡
   document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
+<script>
+  document.querySelectorAll('.sub-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.getElementById('defaultSub').value = this.dataset.value;
+    });
+  });
+</script>
+<script>
+  const subjectButtons = document.querySelectorAll('#defaultSub-buttons .sub-btn');
+  const hiddenInput = document.getElementById('defaultSub');
+
+  subjectButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      hiddenInput.value = this.dataset.value;
+
+      // 移除其他按鈕的 active 樣式
+      subjectButtons.forEach(b => b.classList.remove('active'));
+
+      // 為目前按下的按鈕加上 active 樣式
+      this.classList.add('active');
+    });
+  });
+
+  // 預設選中「全科」
+  document.querySelector('#defaultSub-buttons .sub-btn[data-value="5"]').classList.add('active');
+</script>
+
+
 
 </body>
 </html>
