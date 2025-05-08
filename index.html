@@ -672,8 +672,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 使用 mousedown，不要 focus，先切到自訂、解鎖、再 focus
-  customFormula.addEventListener('mousedown', e => {
+  // 使用 pointerdown，不要 focus，先切到自訂、解鎖、再 focus
+  customFormula.addEventListener('pointerdown', e => {
     e.preventDefault();                // 避免預設 disabled 阻止 focus
     if (!typeCustom.checked) {
       typeCustom.checked = true;
