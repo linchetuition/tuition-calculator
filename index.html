@@ -23,7 +23,7 @@
     - 所有與畫面有關的樣式已集中於 <style> 區塊
 
   🧠 自動更新要做的事：
-    - 請按ctrl+f搜尋 「20250510」，更新日期後，再重新上傳github
+    - 請按ctrl+f搜尋 「20250509」，更新日期後，再重新上傳github
 	- 上傳後再line公告記得重新整理
 	
 -->
@@ -64,7 +64,7 @@
 }
   #defaultSub-buttons .sub-btn.active {
 background-color: #E2B64E;
-color: white;  
+color： white;  
 }
 
 #calculateBtn {
@@ -247,9 +247,9 @@ padding: 1px 10px 20px 20px;
 
 <input id="typeCustom" name="studentType" type="radio" value="custom"/>
 <label for="typeCustom">國三生 / 自訂</label>
-<input id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
+<input disabled="" id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
 </div>
-<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
+<di<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
   <span style="display:inline-block; font-weight:600; width: 5.7em;">　</span>
   <label style="margin: 0;"><input type="checkbox" id="siblingDiscount" style="transform: scale(1.2); margin-right: 0.5em;"/> 兄弟姊妹</label>
 </div>
@@ -412,7 +412,14 @@ document.getElementById("customToggle").addEventListener("change", () => {
   }
 });
 
-
+  document.querySelectorAll('input[name="studentType"]').forEach(el => {
+  el.addEventListener('change', () => {
+    const isCustom = document.getElementById("typeCustom").checked;
+    const input = document.getElementById("customFormula");
+    input.disabled = !isCustom;
+    if (!isCustom) input.value = "";
+  });
+});
 
 function calculate() {
   const grade = parseInt(document.querySelector('input[name="grade"]:checked').value);
@@ -630,7 +637,7 @@ function setStartNextNextMonth() {
 <div id="details"></div>
 <div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
 <script>
-  const currentVersion = "20250510"; //更新版本記得改這裡
+  const currentVersion = "20250509"; //更新版本記得改這裡
   document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
 <script>
@@ -658,36 +665,6 @@ function setStartNextNextMonth() {
 
   // 預設選中「全科」
   document.querySelector('#defaultSub-buttons .sub-btn[data-value="5"]').classList.add('active');
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  const typeCustom    = document.getElementById('typeCustom');
-  const customFormula = document.getElementById('customFormula');
-
-  // 當 radio 切換時，控制輸入框可否輸入
-  document.querySelectorAll('input[name="studentType"]').forEach(el => {
-    el.addEventListener('change', () => {
-      customFormula.disabled = !typeCustom.checked;
-      if (!typeCustom.checked) customFormula.value = "";
-    });
-  });
-
-customFormula.addEventListener('pointerdown', unlockAndFocus);
-customFormula.addEventListener('touchstart',  unlockAndFocus);
-
-function unlockAndFocus(e) {
-  e.preventDefault();
-  if (!typeCustom.checked) {
-    typeCustom.checked = true;
-    typeCustom.dispatchEvent(new Event('change'));
-  }
-  setTimeout(() => customFormula.focus(), 0);
-}
-
-});
-
-
-
 </script>
 
 
