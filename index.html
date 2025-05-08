@@ -23,7 +23,7 @@
     - 所有與畫面有關的樣式已集中於 <style> 區塊
 
   🧠 自動更新要做的事：
-    - 請按ctrl+f搜尋 「20250420」，更新日期後，再重新上傳github
+    - 請按ctrl+f搜尋 「20250509」，更新日期後，再重新上傳github
 	- 上傳後再line公告記得重新整理
 	
 -->
@@ -38,6 +38,17 @@
 
 
 <style>
+
+.divider-vertical {
+  display: inline-block;
+  width: 3px;
+  height: 2em;          /* 線的長度，可依需求調整 */
+  background-color: #ccc;
+  vertical-align: middle;
+  margin: 0 0.3em;     /* 線與左右元素間距 */
+}
+
+
 #defaultSub-buttons {
   display: flex;
   gap: 1em;
@@ -221,6 +232,8 @@ padding: 1px 10px 20px 20px;
 <label for="grade1" style="margin-right: 1.5em;">國一</label>
 <input id="grade2" name="grade" type="radio" value="2"/>
 <label for="grade2" style="margin-right: 1.5em;">國二</label>
+  
+    <span class="divider-vertical"></span>
 <input id="grade3" name="grade" type="radio" value="3"/>
 <label for="grade3">國三</label>
 </div>
@@ -230,11 +243,13 @@ padding: 1px 10px 20px 20px;
 <label for="typeNew" style="margin-right: 1.5em;">新生</label>
 <input id="typeOld" name="studentType" type="radio" value="old"/>
 <label for="typeOld" style="margin-right: 1.5em;">舊生</label>
+  <span class="divider-vertical"></span>
+
 <input id="typeCustom" name="studentType" type="radio" value="custom"/>
-<label for="typeCustom">國三生/自訂</label>
-<input disabled="" id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
+<label for="typeCustom">國三生 / 自訂</label>
+<input id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
 </div>
-<di<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
+<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
   <span style="display:inline-block; font-weight:600; width: 5.7em;">　</span>
   <label style="margin: 0;"><input type="checkbox" id="siblingDiscount" style="transform: scale(1.2); margin-right: 0.5em;"/> 兄弟姊妹</label>
 </div>
@@ -261,12 +276,13 @@ padding: 1px 10px 20px 20px;
 <input id="end" readonly="" style="background-color:#f0f0f0; margin-top: 0.5em;" type="month"/>
 </div>
 <div class="date-notes">
-<p><strong>📌 2024年7月起學費表：</strong></p>
+<p><strong>📌 「舊生」指6個月1.2科-1000，3科以上-2000<br>
+              / 12個月*0.9 (超過12個月請用「自訂 )</strong></p>
+<p><strong>📌 國三7月或8月繳到會考：</strong></p>
 <ul style="padding-left: 1.2em; font-size: 0.95em; line-height: 1.6;">
-<li>國三7月或8月繳到會考</li>
 <li>國三舊生：*0.9</li>
 <li>國三新生：2科-2000，3科以上-4000</li>
-<li>特殊優待請使用自訂欄位</li>
+<li>國三請使用「自訂」</li>
 </ul>
 </div>
 </div>
@@ -396,14 +412,7 @@ document.getElementById("customToggle").addEventListener("change", () => {
   }
 });
 
-  document.querySelectorAll('input[name="studentType"]').forEach(el => {
-  el.addEventListener('change', () => {
-    const isCustom = document.getElementById("typeCustom").checked;
-    const input = document.getElementById("customFormula");
-    input.disabled = !isCustom;
-    if (!isCustom) input.value = "";
-  });
-});
+
 
 function calculate() {
   const grade = parseInt(document.querySelector('input[name="grade"]:checked').value);
@@ -621,7 +630,7 @@ function setStartNextNextMonth() {
 <div id="details"></div>
 <div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
 <script>
-  const currentVersion = "20250420"; //更新版本記得改這裡
+  const currentVersion = "20250509"; //更新版本記得改這裡
   document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
 <script>
@@ -649,6 +658,33 @@ function setStartNextNextMonth() {
 
   // 預設選中「全科」
   document.querySelector('#defaultSub-buttons .sub-btn[data-value="5"]').classList.add('active');
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const typeCustom    = document.getElementById('typeCustom');
+  const customFormula = document.getElementById('customFormula');
+
+  // 當 radio 切換時，控制輸入框可否輸入
+  document.querySelectorAll('input[name="studentType"]').forEach(el => {
+    el.addEventListener('change', () => {
+      customFormula.disabled = !typeCustom.checked;
+      if (!typeCustom.checked) customFormula.value = "";
+    });
+  });
+
+  // 使用 mousedown，不要 focus，先切到自訂、解鎖、再 focus
+  customFormula.addEventListener('mousedown', e => {
+    e.preventDefault();                // 避免預設 disabled 阻止 focus
+    if (!typeCustom.checked) {
+      typeCustom.checked = true;
+      typeCustom.dispatchEvent(new Event('change')); // 觸發上面那段 enable/disable
+    }
+    setTimeout(() => customFormula.focus(), 0);
+  });
+});
+
+
+
 </script>
 
 
