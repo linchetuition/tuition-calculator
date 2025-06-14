@@ -12,7 +12,7 @@
 
   📌 功能邏輯摘要：
     1. 年級：國一～國三
-    2. 若起始月份是 7 月 → 不升級
+    2. 若起始月份是 7 月-12月 → 不升級
     3. 若區間跨過 7 月 → 自動升年級（國一→二→三）
     4. 國三最多只能算到次年 5 月
     5. 優待與折扣可自訂輸入（如 *0.9 或 4000）
@@ -23,7 +23,7 @@
     - 所有與畫面有關的樣式已集中於 <style> 區塊
 
   🧠 自動更新要做的事：
-    - 請按ctrl+f搜尋 「20250509」，更新日期後，再重新上傳github
+    - 請按ctrl+f搜尋 「20250614」，更新日期後，再重新上傳github
 	- 上傳後再line公告記得重新整理
 	
 -->
@@ -438,7 +438,8 @@ function calculate() {
 
   // 🌟 新增：是否啟動升級（若不是 7 月開始就升級）
   const firstMonth = start.getMonth() + 1;
-  const shouldUpgrade = firstMonth !== 7;
+const shouldUpgrade = (firstMonth >= 1 && firstMonth <= 6);
+// 只有1~6月起始才升級，7~12月都不升級
 
   let cur = new Date(start);
   let rows = [];
@@ -639,7 +640,7 @@ function setStartNextNextMonth() {
 <div id="details"></div>
 <div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
 <script>
-  const currentVersion = "20250524"; //更新版本記得改這裡
+  const currentVersion = "20250614"; //更新版本記得改這裡
   document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
 <script>
