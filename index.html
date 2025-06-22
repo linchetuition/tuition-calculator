@@ -436,56 +436,51 @@ function calculate() {
     return;
   }
 
-  // 🌟 新增：是否啟動升級（若不是 7 月開始就升級）
-  const firstMonth = start.getMonth() + 1;
-const shouldUpgrade = (firstMonth >= 1 && firstMonth <= 6);
-// 只有1~6月起始才升級，7~12月都不升級
+let cur = new Date(start);
+let rows = [];
+let total = 0;
+let months = 0;
+let term1 = 0;
+let term2 = 0;
 
-  let cur = new Date(start);
-  let rows = [];
-  let total = 0;
-  let months = 0;
-  let term1 = 0;
-  let term2 = 0;
+while (cur <= end) {
+  const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
 
-  while (cur <= end) {
-    const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
-
-    // 🌟 計算實際年級
-let g = grade;
-const yDiff = cur.getFullYear() - start.getFullYear();
-if (shouldUpgrade) {
-  if (cur.getMonth() >= 6 && start.getMonth() < 6) {
-    // 起始在上學期，並且目前已經進入下學期
-    g += yDiff + 1;
-  } else {
-    g += yDiff;
-  }
-}
-// 國三最多到國三
-if (g > 3) g = 3;
-
-
-    const cat = getCategory(cur);
-    let sub = defSub;
-
-    if (isCustom) {
-      const customInput = document.querySelector(`select[name="${ym}"]`);
-      if (customInput) sub = parseInt(customInput.value);
-    }
-
-    const fee = table[g][cat]?.[sub - 1] || 0;
-    total += fee;
-    months++;
-    if (months <= 6) {
-      term1 += fee;
+  // 正確升級邏輯
+  let g = grade;
+  let upgrade = 0;
+  if (cur.getFullYear() > start.getFullYear()) {
+    // 跨年
+    if (cur.getMonth() >= 6) {
+      upgrade = cur.getFullYear() - start.getFullYear();
     } else {
-      term2 += fee;
+      upgrade = cur.getFullYear() - start.getFullYear() - 1;
     }
-
-    rows.push(`<tr><td>${months}</td><td>${ym}</td><td>國${g}</td><td>${cat}</td><td>${sub === 5 ? "全科" : sub + " 科"}</td><td>${fee.toLocaleString()}</td></tr>`);
-    cur.setMonth(cur.getMonth() + 1);
+    if (upgrade < 0) upgrade = 0;
+    g += upgrade;
   }
+  if (g > 3) g = 3;
+
+  const cat = getCategory(cur);
+  let sub = defSub;
+
+  if (isCustom) {
+    const customInput = document.querySelector(`select[name="${ym}"]`);
+    if (customInput) sub = parseInt(customInput.value);
+  }
+
+  const fee = table[g][cat]?.[sub - 1] || 0;
+  total += fee;
+  months++;
+  if (months <= 6) {
+    term1 += fee;
+  } else {
+    term2 += fee;
+  }
+
+  rows.push(`<tr><td>${months}</td><td>${ym}</td><td>國${g}</td><td>${cat}</td><td>${sub === 5 ? "全科" : sub + " 科"}</td><td>${fee.toLocaleString()}</td></tr>`);
+  cur.setMonth(cur.getMonth() + 1);
+}
 //舊生優待
   let discount = 0;
   if (months < 12 && studentType === "old") {
