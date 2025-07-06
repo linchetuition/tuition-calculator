@@ -2,7 +2,8 @@
 
 <html lang="zh-Hant">
 <head>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/><!--  
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!--  
   🌟 林澈 2025 學費計算器
   ----------------------------
   ✅ 使用說明：
@@ -29,32 +30,26 @@
 -->
 <meta charset="utf-8"/>
 <link rel="icon" href="logo2.png" type="image/png">
-
-<title>2025林澈學費計算器</title>
+<title>林澈學費計算器</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2c3e50">
 
-
-
 <style>
-
+/* ...（原樣式不變，略）... */
 .divider-vertical {
   display: inline-block;
   width: 3px;
-  height: 2em;          /* 線的長度，可依需求調整 */
+  height: 2em;
   background-color: #ccc;
   vertical-align: middle;
-  margin: 0 0.3em;     /* 線與左右元素間距 */
+  margin: 0 0.3em;
 }
-
-
 #defaultSub-buttons {
   display: flex;
   gap: 1em;
   margin-top: 0em;
 }
-
 .sub-btn {
   padding: 0.4em 1.2em;
   background-color: #2c3e50;
@@ -62,11 +57,10 @@
   font-size: 1em;
   transition: all 0.01s ease;
 }
-  #defaultSub-buttons .sub-btn.active {
+#defaultSub-buttons .sub-btn.active {
 background-color: #E2B64E;
-color： white;  
+color: white;
 }
-
 #calculateBtn {
   background: linear-gradient(#E2B64E, #E2B64E);
   color: white;
@@ -76,28 +70,22 @@ color： white;
   font-size: 1.2em;
   font-weight: bold;
   letter-spacing: 2px;
-
 }
-
 #calculateBtn:hover {
   background: linear-gradient(135deg, #B46C4B, #B46C4B);
   transform: scale(1.05);
 }
-
-
 .date-section {
   display: flex;
   gap: 2em;
   align-items: flex-start;
   margin-bottom: 1.5em;
 }
-
 .date-controls {
-  flex: 2; /* 左邊多一點空間 */
+  flex: 2;
 }
-
 .date-notes {
-  flex: 1.6; /* 右邊窄一點 */
+  flex: 1.6;
   border-left: 4px solid #2c3e50;
   padding-left: 1.2em;
   background-color: #f8f8f8;
@@ -105,87 +93,75 @@ color： white;
   font-size: 0.9em;
   color: #444;
 }
-
-  body {
-    font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
-    background-color: #f5f7fa;
-    color: #2c3e50;
-    max-width: 850px;
-    margin: 10px auto;
-padding: 1px 10px 20px 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    background: #ffffff;
-  }
-
-  h2 {
-    border-bottom: 2px solid #2c3e50;
-    padding-bottom: 0.3em;
-  }
-
-  label {
-    font-weight: 600;
-    margin-top: 1em;
-    color: #34495e;
-  }
-
-  select, input[type=month], input[type=text] {
-    padding: 0.5em;
-    width: 100%;
-    max-width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fdfdfd;
-    font-size: 1em;
-    margin-top: 0.3em;
-  }
-
-  input[type=checkbox] {
-    transform: scale(1.2);
-    margin-right: 0.5em;
-  }
-
-  button {
-    background-color: #2c3e50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.6em 1.4em;
-    margin: 0.4em 0.4em 0 0;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
-  }
-
-  button:hover {
-    background-color: #1a242f;
-  }
-
-  table {
-    margin-top: 1em;
-    border-collapse: collapse;
-    width: 100%;
-    background-color: #fafbfc;
-  }
-
-  th {
-    background-color: #2c3e50;
-    color: white;
-  }
-
-  th, td {
-    border: 1px solid #d1d5da;
-    padding: 0.5em;
-    text-align: center;
-  }
-
-  #summary {
-    margin-top: 2em;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
+body {
+  font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+  background-color: #f5f7fa;
+  color: #2c3e50;
+  max-width: 850px;
+  margin: 10px auto;
+  padding: 1px 10px 20px 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: #ffffff;
+}
+h2 {
+  border-bottom: 2px solid #2c3e50;
+  padding-bottom: 0.3em;
+}
+label {
+  font-weight: 600;
+  margin-top: 1em;
+  color: #34495e;
+}
+select, input[type=month], input[type=text] {
+  padding: 0.5em;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fdfdfd;
+  font-size: 1em;
+  margin-top: 0.3em;
+}
+input[type=checkbox] {
+  transform: scale(1.2);
+  margin-right: 0.5em;
+}
+button {
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6em 1.4em;
+  margin: 0.4em 0.4em 0 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: #1a242f;
+}
+table {
+  margin-top: 1em;
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fafbfc;
+}
+th {
+  background-color: #2c3e50;
+  color: white;
+}
+th, td {
+  border: 1px solid #d1d5da;
+  padding: 0.5em;
+  text-align: center;
+}
+#summary {
+  margin-top: 2em;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2c3e50;
+}
 @media screen and (max-width: 600px) {
   body {
     padding: 15px;
@@ -221,7 +197,7 @@ padding: 1px 10px 20px 20px;
 <body>
 <h2 style="display: flex; align-items: center; gap: 0.2em; font-size: 3em;">
   <img src="logo192.png" alt="Logo" style="width: 64px; height: 64px;"/>
-  <span>林澈 <span style="font-size: 0.75em;">學費計算器</span></span>
+  <span>林澈 <span style="font-size: 0.75em;">學費計算器 <span style="font-size: 0.5em ;color:red;">已更新2026/7學費</span></span></span>
 </h2>
 
 <div>
@@ -276,13 +252,19 @@ padding: 1px 10px 20px 20px;
 <input id="end" readonly="" style="background-color:#f0f0f0; margin-top: 0.5em;" type="month"/>
 </div>
 <div class="date-notes">
-<br><strong>📌 學費 </strong></br>
+<br><strong>📌 舊學費 </strong></br>
 <li>國一：3300 / 5300 / 6800 / 7500</li>
 <li>國二：3300 / 5300 / 6800 / 8000</li>
 <li>國三07-08月：5000 / 7000 / 9000 / 11000 / 12000</li>
 <li>國三09-12月：3800 / 5800 / 7500 / 8500 / 9500</li>
 <li>國三01-04月：4200 / 6500 / 8500 / 9500 / 10500</li>
 <li>國三5月會考：3000 / 4000 / 5000 / 6000 / 7000</li>
+<br><strong>📌 2026/07後新學費 </strong></br>
+<li>國一、國二：3500 / 6000 / 8000 / 8500</li>
+<li>國三07-08月：5000 / 8000 / 10000 / 12000 / 14000</li>
+<li>國三09-12月：4000 / 7000 / 9000 / 10000 / 11000</li>
+<li>國三01-04月：5000 / 8000 / 10000 / 12000 / 13000</li>
+<li>國三5月會考：3000 / 5000 / 6000 / 7000 / 8000</li>
 <br><strong>📌 舊生2科以下-1000/3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」</strong></br>
 <br><strong>📌 國三請用「自訂」，可選半年繳或繳到會考</strong></br>
 <li>7月或8月繳到會考：舊生*0.9 / 新生：2科-2000，3科以上-4000</li>
@@ -318,25 +300,57 @@ padding: 1px 10px 20px 20px;
 <h3 id="summary"></h3>
 <div id="details"></div>
 
-
 <script>
-  // 重要重要重要！！！年級學費表，若未來有更新學費改這裡即可。123指國一國二國三，分月份，依序分1科，2科，3科，4科，全科
-    const table = {
-      1: {'1-4': [3300, 5300, 6800, 7500, 7500], '5月': [3300,5300,6800,7500,7500], '7-8': [3300,5300,6800,7500,7500], '9-12': [3300,5300,6800,7500,7500]},
-      2: {'1-4': [3300, 5300, 6800, 8000, 8000], '5月': [3300,5300,6800,8000,8000], '7-8': [3300,5300,6800,8000,8000], '9-12': [3300,5300,6800,8000,8000]},
-      3: {'1-4': [4200, 6500, 8500, 9500, 10500], '5月': [3000,4000,5000,6000,7000], '7-8': [5000,7000,9000,11000,12000], '9-12': [3800,5800,7500,8500,9500]}
-    };
+// 20250628: 動態學費表
+// 202607起新的學費表
+const tableFuture = {
+  // 2026/7月起，國一、國二
+  1: { // 國一
+    '1-4': [3500, 6000, 8000, 8500, 8500], // 1-4月
+    '5月':  [3500, 6000, 8000, 8500, 8500],
+    '7-8': [3500, 6000, 8000, 8500, 8500],
+    '9-12': [3500, 6000, 8000, 8500, 8500],
+  },
+  2: { // 國二
+    '1-4': [3500, 6000, 8000, 8500, 8500],
+    '5月':  [3500, 6000, 8000, 8500, 8500],
+    '7-8': [3500, 6000, 8000, 8500, 8500],
+    '9-12': [3500, 6000, 8000, 8500, 8500],
+  },
+  3: { // 國三
+    '1-4': [5000, 8000, 10000, 12000, 13000], // 1-4月
+    '5月':  [3000, 5000, 6000, 7000, 8000],   // 5月會考
+    '7-8': [5000, 8000, 10000, 12000, 14000],
+    '9-12': [4000, 7000, 9000, 10000, 11000],
+  }
+};
+// 2026/6月底前，原學費表
+const tableCurrent = {
+  1: {'1-4': [3300, 5300, 6800, 7500, 7500], '5月': [3300,5300,6800,7500,7500], '7-8': [3300,5300,6800,7500,7500], '9-12': [3300,5300,6800,7500,7500]},
+  2: {'1-4': [3300, 5300, 6800, 8000, 8000], '5月': [3300,5300,6800,8000,8000], '7-8': [3300,5300,6800,8000,8000], '9-12': [3300,5300,6800,8000,8000]},
+  3: {'1-4': [4200, 6500, 8500, 9500, 10500], '5月': [3000,4000,5000,6000,7000], '7-8': [5000,7000,9000,11000,12000], '9-12': [3800,5800,7500,8500,9500]}
+};
+// 決定用哪個學費表
+function getFeeTable(year, month, grade) {
+  // 2026年7月起用新表
+  if (year > 2026 || (year === 2026 && month >= 7)) {
+    return tableFuture[grade];
+  }
+  // 2026/6月以前用舊表
+  return tableCurrent[grade];
+}
 
-    function getCategory(d) {
-      const m = d.getMonth() + 1;
-      if (m === 5) return '5月';
-      if (m === 6) return '1-4';
-      if (m >= 1 && m <= 4) return '1-4';
-      if (m >= 7 && m <= 8) return '7-8';
-      return '9-12';
-    }
+function getCategory(d) {
+  const m = d.getMonth() + 1;
+  if (m === 5) return '5月';
+  if (m === 6) return '1-4';
+  if (m >= 1 && m <= 4) return '1-4';
+  if (m >= 7 && m <= 8) return '7-8';
+  return '9-12';
+}
 
-  function setRange(months) {
+function setRange(months) {
+  // ...（原本程式碼不變）...
   const startVal = document.getElementById("start").value;
   if (!startVal) {
     alert("請先選擇起始月份");
@@ -358,12 +372,9 @@ padding: 1px 10px 20px 20px;
     maxEnd.setMonth(4); // index 4 = 5月
 
     if (end > maxEnd) {
-      end.setTime(maxEnd.getTime());  // 限制 end 不超過明年5月
-warning.innerText = "⚠️ 國三最多到5月會考";
-setTimeout(() => {
-  warning.innerText = "";
-}, 3000); // 3 秒後自動清除
-
+      end.setTime(maxEnd.getTime());
+      warning.innerText = "⚠️ 國三最多到5月會考";
+      setTimeout(() => { warning.innerText = ""; }, 3000);
     } else {
       warning.innerText = "";
     }
@@ -381,16 +392,14 @@ setTimeout(() => {
   if (toggle.checked) toggle.dispatchEvent(new Event("change"));
 }
 
+function enableCustom() {
+  const endInput = document.getElementById("end");
+  endInput.readOnly = false;
+  endInput.style.backgroundColor = "white";
+}
 
-
-    function enableCustom() {
-      const endInput = document.getElementById("end");
-      endInput.readOnly = false;
-      endInput.style.backgroundColor = "white";
-    }
-
-    
 document.getElementById("customToggle").addEventListener("change", () => {
+  // ...（原本程式碼不變）...
   const custom = document.getElementById("customToggle").checked;
   const start = new Date(document.getElementById("start").value);
   const end = new Date(document.getElementById("end").value);
@@ -399,13 +408,11 @@ document.getElementById("customToggle").addEventListener("change", () => {
   if (!custom || isNaN(start) || isNaN(end) || start > end) return;
 
   const def = document.getElementById("defaultSub").value;
-
   const cur = new Date(start);
   while (cur <= end) {
     const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
     const select = document.createElement("select");
     select.name = ym;
-
     for (let i = 1; i <= 5; i++) {
       const opt = document.createElement("option");
       opt.value = i;
@@ -413,7 +420,6 @@ document.getElementById("customToggle").addEventListener("change", () => {
       if (String(i) === def) opt.selected = true;
       select.appendChild(opt);
     }
-
     const div = document.createElement("div");
     div.innerHTML = `<strong>${ym}</strong> `;
     div.appendChild(select);
@@ -422,7 +428,7 @@ document.getElementById("customToggle").addEventListener("change", () => {
   }
 });
 
-  document.querySelectorAll('input[name="studentType"]').forEach(el => {
+document.querySelectorAll('input[name="studentType"]').forEach(el => {
   el.addEventListener('change', () => {
     const isCustom = document.getElementById("typeCustom").checked;
     const input = document.getElementById("customFormula");
@@ -444,126 +450,114 @@ function calculate() {
     return;
   }
 
-let cur = new Date(start);
-let rows = [];
-let total = 0;
-let months = 0;
-let term1 = 0;
-let term2 = 0;
+  let cur = new Date(start);
+  let rows = [];
+  let total = 0;
+  let months = 0;
+  let term1 = 0;
+  let term2 = 0;
 
-while (cur <= end) {
-  const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
-
-  // 正確升級邏輯
-  let g = grade;
-  let upgrade = 0;
-  if (cur.getFullYear() > start.getFullYear()) {
-    // 跨年
-    if (cur.getMonth() >= 6) {
-      upgrade = cur.getFullYear() - start.getFullYear();
-    } else {
-      upgrade = cur.getFullYear() - start.getFullYear() - 1;
-    }
-    if (upgrade < 0) upgrade = 0;
-    g += upgrade;
-  }
-  if (g > 3) g = 3;
-
-  const cat = getCategory(cur);
-  let sub = defSub;
-
-  if (isCustom) {
-    const customInput = document.querySelector(`select[name="${ym}"]`);
-    if (customInput) sub = parseInt(customInput.value);
-  }
-
-  const fee = table[g][cat]?.[sub - 1] || 0;
-  total += fee;
-  months++;
-  if (months <= 6) {
-    term1 += fee;
-  } else {
-    term2 += fee;
-  }
-
-  rows.push(`<tr><td>${months}</td><td>${ym}</td><td>國${g}</td><td>${cat}</td><td>${sub === 5 ? "全科" : sub + " 科"}</td><td>${fee.toLocaleString()}</td></tr>`);
-  cur.setMonth(cur.getMonth() + 1);
+  while (cur <= end) {
+    const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
+    // 正確升級邏輯
+let startYear = start.getFullYear();
+let startMonth = start.getMonth() + 1;
+let curYear = cur.getFullYear();
+let curMonth = cur.getMonth() + 1;
+let upgrade = 0;
+if ((curYear > startYear) || (curYear === startYear && curMonth >= 7 && startMonth < 7)) {
+  let startGradeJuly = (startMonth >= 7) ? startYear : startYear - 1;
+  let curGradeJuly = (curMonth >= 7) ? curYear : curYear - 1;
+  upgrade = curGradeJuly - startGradeJuly;
 }
-//舊生優待
+let g = grade + upgrade;
+if (g > 3) g = 3;
+
+    const cat = getCategory(cur);
+    let sub = defSub;
+    if (isCustom) {
+      const customInput = document.querySelector(`select[name="${ym}"]`);
+      if (customInput) sub = parseInt(customInput.value);
+    }
+
+    // 決定這個月用哪張表
+    const table = getFeeTable(cur.getFullYear(), cur.getMonth() + 1, g);
+    // 4科空缺直接顯示0（新表沒4科價格）
+    let fee = table[cat]?.[sub - 1] || 0;
+
+    total += fee;
+    months++;
+    if (months <= 6) term1 += fee;
+    else term2 += fee;
+
+    rows.push(`<tr><td>${months}</td><td>${ym}</td><td>國${g}</td><td>${cat}</td><td>${sub === 5 ? "全科" : sub + " 科"}</td><td>${fee.toLocaleString()}</td></tr>`);
+    cur.setMonth(cur.getMonth() + 1);
+  }
+
+  //舊生優待
   let discount = 0;
   if (months < 12 && studentType === "old") {
-    if (defSub <= 2) discount = 1000;//1科2科優待1000
-    else if (defSub >= 3) discount = 2000;//3科以上優待2000
+    if (defSub <= 2) discount = 1000;
+    else if (defSub >= 3) discount = 2000;
   }
 
-let final = total;
-let note = "";
-const customType = document.getElementById("typeCustom").checked;
-let rawInput = document.getElementById("customFormula").value.trim();
+  let final = total;
+  let note = "";
+  const customType = document.getElementById("typeCustom").checked;
+  let rawInput = document.getElementById("customFormula").value.trim();
 
-// 🌟 替代自動補負號的版本 — 新邏輯
-function parseCustomDiscount(inputStr) {
-  const raw = inputStr.trim();
-  if (/^[*/]/.test(raw)) {
-    return { evalText: raw, displayText: raw, isFormula: true };
-  }
-  if (/^\d+(\.\d+)?$/.test(raw)) {
-    return { evalText: "-" + raw, displayText: raw, isFormula: false };
-  }
-  if (/^[+-]\d+(\.\d+)?$/.test(raw)) {
-    return { evalText: raw, displayText: raw.startsWith("-") ? raw.slice(1) : raw, isFormula: false };
-  }
-  return { evalText: raw, displayText: raw, isFormula: false };
-}
-
-const { evalText, displayText, isFormula } = parseCustomDiscount(rawInput);
-
-
-if (customType && rawInput) {
-  try {
-    const raw = eval(`${total}${evalText}`);
-    final = Math.ceil(raw / 100) * 100;
-
-    if (isFormula) {
-      note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
-    } else {
-      note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText})`;
+  function parseCustomDiscount(inputStr) {
+    const raw = inputStr.trim();
+    if (/^[*/]/.test(raw)) {
+      return { evalText: raw, displayText: raw, isFormula: true };
     }
-
-  } catch (e) {
-    alert("⚠️ 無效的折扣公式，請重新輸入");
-    return;
+    if (/^\d+(\.\d+)?$/.test(raw)) {
+      return { evalText: "-" + raw, displayText: raw, isFormula: false };
+    }
+    if (/^[+-]\d+(\.\d+)?$/.test(raw)) {
+      return { evalText: raw, displayText: raw.startsWith("-") ? raw.slice(1) : raw, isFormula: false };
+    }
+    return { evalText: raw, displayText: raw, isFormula: false };
   }
-} else {
- 
-  // 舊生 / 新生 標準邏輯區
-  final = total - discount;
+  const { evalText, displayText, isFormula } = parseCustomDiscount(rawInput);
 
-  if (months === 12) {
-    const raw90 = Math.floor(total * 0.9);
-    final = Math.ceil(raw90 / 100) * 100;
-    note = `(原價 ${total.toLocaleString()})(年繳優待*0.9= ${raw90.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
+  if (customType && rawInput) {
+    try {
+      const raw = eval(`${total}${evalText}`);
+      final = Math.ceil(raw / 100) * 100;
+
+      if (isFormula) {
+        note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
+      } else {
+        note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText})`;
+      }
+    } catch (e) {
+      alert("⚠️ 無效的折扣公式，請重新輸入");
+      return;
+    }
   } else {
-    if (studentType === "old" && discount > 0) {
-      note = `(原價 ${total.toLocaleString()})(舊生優待 ${discount.toLocaleString()})`;
-    } else if (studentType === "new") {
-      note = `(原價 ${total.toLocaleString()})`;
+    final = total - discount;
+    if (months === 12) {
+      const raw90 = Math.floor(total * 0.9);
+      final = Math.ceil(raw90 / 100) * 100;
+      note = `(原價 ${total.toLocaleString()})(年繳優待*0.9= ${raw90.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
     } else {
-      note = ""; // 理論上不會進來這邊
+      if (studentType === "old" && discount > 0) {
+        note = `(原價 ${total.toLocaleString()})(舊生優待 ${discount.toLocaleString()})`;
+      } else if (studentType === "new") {
+        note = `(原價 ${total.toLocaleString()})`;
+      } else {
+        note = "";
+      }
     }
   }
-}
 
-
-
-// ✅ 無論是否自訂，都在這裡加兄弟姊妹折扣
-const hasSibling = document.getElementById("siblingDiscount").checked;
-if (hasSibling) {
-  final -= 1000;
-  note += `（兄弟姊妹優待1000）`;
-}
-
-
+  // 兄弟姊妹折扣
+  const hasSibling = document.getElementById("siblingDiscount").checked;
+  if (hasSibling) {
+    final -= 1000;
+    note += `（兄弟姊妹優待1000）`;
+  }
 
   let monthNoteColor = ([6, 12].includes(months)) ? "#2c3e50" : "red";
   let monthNote = `<div style="color: ${monthNoteColor}; font-weight: bold;">🗓️ 總月份：${months} 個月</div>`;
@@ -574,20 +568,16 @@ if (hasSibling) {
       <div style="color:#d35400;">📙 第二期（#07-12）：${term2.toLocaleString()} 元</div>
     `;
   }
-document.getElementById("summary").innerHTML = `
-  <div style="border: 2px solid #ccc; border-radius: 8px; padding: 1.2em; background-color: #fdfdfd; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-    <div style="background-color: #f7f7f7; padding: 0.5em 0.8em; border-radius: 6px; font-size: 1.2em; font-weight: bold; margin-bottom: 0.8em;">
-      💰 總學費：${final.toLocaleString()} 元
+  document.getElementById("summary").innerHTML = `
+    <div style="border: 2px solid #ccc; border-radius: 8px; padding: 1.2em; background-color: #fdfdfd; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+      <div style="background-color: #f7f7f7; padding: 0.5em 0.8em; border-radius: 6px; font-size: 1.2em; font-weight: bold; margin-bottom: 0.8em;">
+        💰 總學費：${final.toLocaleString()} 元
+      </div>
+      <div style="font-size: 0.95em; color: #555; margin-bottom: 0.5em;">${note}</div>
+      ${monthNote}
+      ${termNote}
     </div>
-    <div style="font-size: 0.95em; color: #555; margin-bottom: 0.5em;">${note}</div>
-    ${monthNote}
-    ${termNote}
-  </div>
-`;
-
-
-
-
+  `;
   document.getElementById("details").innerHTML = `
     <table>
       <thead><tr><th>#</th><th>月份</th><th>年級</th><th>分類</th><th>科目數</th><th>學費</th></tr></thead>
@@ -596,7 +586,6 @@ document.getElementById("summary").innerHTML = `
   `;
 }
 
-  
 function setStartThisMonth() {
   const now = new Date();
   const yyyy = now.getFullYear();
@@ -605,7 +594,6 @@ function setStartThisMonth() {
   document.getElementById("start").readOnly = true;
   document.getElementById("start").style.backgroundColor = "#f0f0f0";
 }
-
 function setStartNextMonth() {
   const now = new Date();
   now.setMonth(now.getMonth() + 1);
@@ -615,19 +603,16 @@ function setStartNextMonth() {
   document.getElementById("start").readOnly = true;
   document.getElementById("start").style.backgroundColor = "#f0f0f0";
 }
-
 function enableStartManual() {
   const now = new Date();
-  now.setMonth(now.getMonth() + 3); // 跳到三個月後
+  now.setMonth(now.getMonth() + 3);
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth() + 1).padStart(2, '0');
-
   const input = document.getElementById("start");
   input.value = `${yyyy}-${mm}`;
   input.readOnly = false;
   input.style.backgroundColor = "white";
 }
-
 function setStartNextNextMonth() {
   const now = new Date();
   now.setMonth(now.getMonth() + 2);
@@ -637,13 +622,11 @@ function setStartNextNextMonth() {
   document.getElementById("start").readOnly = true;
   document.getElementById("start").style.backgroundColor = "#f0f0f0";
 }
-
-
 </script>
 <div id="details"></div>
 <div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
 <script>
-  const currentVersion = "20250628"; //更新版本記得改這裡
+  const currentVersion = "20250706"; //更新版本記得改這裡
   document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
 <script>
@@ -660,20 +643,12 @@ function setStartNextNextMonth() {
   subjectButtons.forEach(btn => {
     btn.addEventListener('click', function () {
       hiddenInput.value = this.dataset.value;
-
-      // 移除其他按鈕的 active 樣式
       subjectButtons.forEach(b => b.classList.remove('active'));
-
-      // 為目前按下的按鈕加上 active 樣式
       this.classList.add('active');
     });
   });
 
-  // 預設選中「全科」
   document.querySelector('#defaultSub-buttons .sub-btn[data-value="5"]').classList.add('active');
 </script>
-
-
-
 </body>
 </html>
