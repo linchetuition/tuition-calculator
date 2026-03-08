@@ -1,33 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="zh-Hant">
 <head>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<!--  
-  🌟 林澈 2025 學費計算器
-  ----------------------------
-  ✅ 使用說明：
-    - 本頁為前端學費計算工具
-    - 所有金額、規則可在主程式碼中直接調整
-    - 學費表與折扣規則建議獨立抽出（可考慮未來模組化）
-
-  📌 功能邏輯摘要：
-    1. 年級：國一～國三
-    2. 若起始月份是 7 月-12月 → 不升級
-    3. 若區間跨過 7 月 → 自動升年級（國一→二→三）
-    4. 國三最多只能算到次年 5 月
-    5. 優待與折扣可自訂輸入（如 *0.9 或 4000）
-
-  🛠️ 修改建議：
-    - 若要改學費金額，請按ctrl+f搜尋 const table 開頭處
-    - 若要改折扣邏輯，可按ctrl+f搜尋 舊生優待
-    - 所有與畫面有關的樣式已集中於 <style> 區塊
-
-  🧠 自動更新要做的事：
-    - 請按ctrl+f搜尋 「20250628」，更新日期後，再重新上傳github
-	- 上傳後再line公告記得重新整理
-	
--->
 <meta charset="utf-8"/>
 <link rel="icon" href="logo2.png" type="image/png">
 <title>林澈學費計算器</title>
@@ -36,7 +10,7 @@
 <meta name="theme-color" content="#2c3e50">
 
 <style>
-/* ...（原樣式不變，略）... */
+/* ...（原樣式保留）... */
 .divider-vertical {
   display: inline-block;
   width: 3px;
@@ -55,12 +29,54 @@
   background-color: #2c3e50;
   cursor: pointer;
   font-size: 1em;
-  transition: all 0.01s ease;
+  color: white; /* 修正文字顏色 */
+  border: 1px solid #2c3e50;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 #defaultSub-buttons .sub-btn.active {
-background-color: #E2B64E;
-color: white;
+  background-color: #E2B64E;
+  border-color: #E2B64E;
+  color: white;
+  font-weight: bold;
 }
+/* 新增：每月設定的按鈕樣式 */
+.month-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px dashed #eee;
+}
+.month-label {
+  font-weight: bold;
+  min-width: 6em;
+  margin-right: 1em;
+}
+.month-btn-group {
+  display: flex;
+  gap: 0.5em;
+}
+.month-btn {
+  padding: 0.3em 0.8em;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #555;
+  transition: all 0.1s;
+}
+.month-btn:hover {
+  background-color: #f0f0f0;
+}
+.month-btn.active {
+  background-color: #E2B64E;
+  color: white;
+  border-color: #E2B64E;
+  font-weight: bold;
+}
+
 #calculateBtn {
   background: linear-gradient(#E2B64E, #E2B64E);
   color: white;
@@ -70,6 +86,7 @@ color: white;
   font-size: 1.2em;
   font-weight: bold;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 #calculateBtn:hover {
   background: linear-gradient(135deg, #B46C4B, #B46C4B);
@@ -128,6 +145,10 @@ input[type=checkbox] {
   margin-right: 0.5em;
 }
 button {
+  /* 一般按鈕樣式 */
+}
+/* 覆蓋通用按鈕樣式以免影響自訂按鈕 */
+.ctrl-btn {
   background-color: #2c3e50;
   color: white;
   border: none;
@@ -138,9 +159,10 @@ button {
   font-weight: bold;
   transition: background-color 0.2s;
 }
-button:hover {
+.ctrl-btn:hover {
   background-color: #1a242f;
 }
+
 table {
   margin-top: 1em;
   border-collapse: collapse;
@@ -176,20 +198,26 @@ th, td {
     width: 100%;
     flex: 1;
   }
-  button {
+  .ctrl-btn {
     width: 100%;
-    margin-bottom: 0.5em;
-  }
-  #monthSettings > div {
     margin-bottom: 0.5em;
   }
   select, input[type=month], input[type=text] {
     width: 100%;
     max-width: none;
   }
-  table {
-    font-size: 0.9em;
-    word-break: break-word;
+  .month-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .month-btn-group {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0.5em;
+  }
+  .month-btn {
+    flex: 1;
+    padding: 0.5em 0;
   }
 }
 </style>
@@ -213,21 +241,26 @@ th, td {
 <input id="grade3" name="grade" type="radio" value="3"/>
 <label for="grade3">國三</label>
 </div>
-<div style="margin-bottom: 1.5em;">
-<span style="display:inline-block; font-weight:600; margin-right: 1em;">🔸優待：</span>
-<input checked="" id="typeNew" name="studentType" type="radio" value="new"/>
-<label for="typeNew" style="margin-right: 1.5em;">新生</label>
-<input id="typeOld" name="studentType" type="radio" value="old"/>
-<label for="typeOld" style="margin-right: 1.5em;">舊生</label>
+
+<div style="margin-bottom: 1em;">
+  <span style="display:inline-block; font-weight:600; margin-right: 1em;">🔸優待：</span>
+  
+  <input checked="" id="typeNew" name="studentType" type="radio" value="new"/>
+  <label for="typeNew" style="margin-right: 1.5em; cursor: pointer;">新生</label>
+  
+  <input id="typeOld" name="studentType" type="radio" value="old"/>
+  <label for="typeOld" style="margin-right: 1.5em; cursor: pointer;">舊生</label>
+  
   <span class="divider-vertical"></span>
 
-<input id="typeCustom" name="studentType" type="radio" value="custom"/>
-<label for="typeCustom">國三生 / 自訂</label>
-<input disabled="" id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 1em;" type="text"/>
-</div>
-<di<div style="margin-bottom: 1.5em; display: flex; align-items: center;">
-  <span style="display:inline-block; font-weight:600; width: 5.7em;">　</span>
-  <label style="margin: 0;"><input type="checkbox" id="siblingDiscount" style="transform: scale(1.2); margin-right: 0.5em;"/> 兄弟姊妹</label>
+  <input id="typeCustom" name="studentType" type="radio" value="custom"/>
+  <label for="typeCustom" style="cursor: pointer;">國三生 / 自訂</label>
+  <input id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 0.5em; padding: 0.3em;" type="text"/>
+
+  <label style="cursor: pointer; display: inline-flex; align-items: center; color: #d35400; font-weight: bold; background-color: #fff6e6; padding: 2px 8px; border-radius: 4px; border: 1px dashed #f39c12; margin-left: 1em; vertical-align: middle;">
+    <input type="checkbox" id="siblingDiscount" style="transform: scale(1.3); margin-right: 0.5em; accent-color: #d35400;"/> 
+    兄弟姊妹
+  </label>
 </div>
 
 
@@ -236,18 +269,18 @@ th, td {
 <div class="date-controls">
 <label>🔸開始月份：</label>
 <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 0.5em;">
-<button onclick="setStartThisMonth()" type="button">這個月</button>
-<button onclick="setStartNextMonth()" type="button">下個月</button>
-<button onclick="setStartNextNextMonth()" type="button">下下個月</button>
-<button onclick="enableStartManual()" type="button">自訂開始月份</button>
+<button class="ctrl-btn" onclick="setStartThisMonth()" type="button">這個月</button>
+<button class="ctrl-btn" onclick="setStartNextMonth()" type="button">下個月</button>
+<button class="ctrl-btn" onclick="setStartNextNextMonth()" type="button">下下個月</button>
+<button class="ctrl-btn" onclick="enableStartManual()" type="button">自訂開始月份</button>
 </div>
 <input id="start" readonly="" style="background-color: #f0f0f0;" type="month"/>
 <div style="margin-top: 1.5em;"></div>
 <label>🔸結束月份：</label>
 <div style="display: flex; gap: 1em; flex-wrap: wrap;">
-<button onclick="setRange(6)" type="button">往後 6 個月</button>
-<button onclick="setRange(12)" type="button">往後 12 個月</button>
-<button onclick="enableCustom()" type="button">自訂結束月份</button>
+<button class="ctrl-btn" onclick="setRange(6)" type="button">往後 6 個月</button>
+<button class="ctrl-btn" onclick="setRange(12)" type="button">往後 12 個月</button>
+<button class="ctrl-btn" onclick="enableCustom()" type="button">自訂結束月份</button>
 </div>
 <input id="end" readonly="" style="background-color:#f0f0f0; margin-top: 0.5em;" type="month"/>
 </div>
@@ -265,10 +298,10 @@ th, td {
 <li>國三09-12月：4000 / 7000 / 9000 / 10000 / 11000</li>
 <li>國三01-04月：5000 / 8000 / 10000 / 12000 / 13000</li>
 <li>國三5月會考：3000 / 5000 / 6000 / 7000 / 8000</li>
-<br><strong>📌 舊生2科以下-1000/3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」</strong></br>
-<br><strong>📌 國三請用「自訂」，可選半年繳或繳到會考</strong></br>
-<li>7月或8月繳到會考：舊生*0.9 / 新生：2科-2000，3科以上-4000</li>
-<br><strong>📌 國三請用「自訂」，必繳到會考，新生不優待</strong></br>
+<br><strong>📌學費折扣</strong>
+<br><strong><li>國一二舊生半年繳2科以下-1000/3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」<br></strong></li>
+<br><strong><li>國三請用「自訂」，繳到會考</strong></br></li>
+<li>7.8月舊生：9折。/新生：2科-3000，3科以上-5000</li>
 <li>09月舊生：-4000/-4000/-4000/-2000/-2000</li>
 <li>10月舊生：-3000/-3000/-3000/-1000/-1000</li>
 <li>11月舊生：-2000/-2000/-2000/-1000/-1000</li>
@@ -293,8 +326,14 @@ th, td {
 </div>
 <input type="hidden" id="defaultSub" name="defaultSub" value="5"/>
 
-<label style="font-weight: 600;"><input id="customToggle" style="transform: scale(1.2); margin-right: 0.5em;" type="checkbox"/>啟用每月個別設定</label>
-<div id="monthSettings"></div>
+<div style="margin-bottom: 0.5em;">
+  <label style="cursor: pointer; display: inline-flex; align-items: center; color: #d35400; font-weight: bold; background-color: #fff6e6; padding: 2px 8px; border-radius: 4px; border: 1px dashed #f39c12;">
+    <input id="customToggle" style="transform: scale(1.2); margin-right: 0.5em; accent-color: #d35400;" type="checkbox"/>
+    啟用每月個別設定
+  </label>
+</div>
+
+<div id="monthSettings" style="margin-top: 1em; padding-left: 0.5em;"></div>
 <hr/>
 <button id="calculateBtn" onclick="calculate()">計算</button>
 <h3 id="summary"></h3>
@@ -350,7 +389,6 @@ function getCategory(d) {
 }
 
 function setRange(months) {
-  // ...（原本程式碼不變）...
   const startVal = document.getElementById("start").value;
   if (!startVal) {
     alert("請先選擇起始月份");
@@ -398,8 +436,8 @@ function enableCustom() {
   endInput.style.backgroundColor = "white";
 }
 
+// 修改：生成按鈕矩陣而非下拉選單
 document.getElementById("customToggle").addEventListener("change", () => {
-  // ...（原本程式碼不變）...
   const custom = document.getElementById("customToggle").checked;
   const start = new Date(document.getElementById("start").value);
   const end = new Date(document.getElementById("end").value);
@@ -407,35 +445,75 @@ document.getElementById("customToggle").addEventListener("change", () => {
   container.innerHTML = "";
   if (!custom || isNaN(start) || isNaN(end) || start > end) return;
 
-  const def = document.getElementById("defaultSub").value;
+  const def = document.getElementById("defaultSub").value; // 字串
   const cur = new Date(start);
+  
   while (cur <= end) {
     const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
-    const select = document.createElement("select");
-    select.name = ym;
+    
+    // 建立列容器
+    const row = document.createElement("div");
+    row.className = "month-row";
+
+    // 月份標籤
+    const label = document.createElement("span");
+    label.className = "month-label";
+    label.innerText = ym;
+    row.appendChild(label);
+
+    // 隱藏的 Input (用來存儲該月真正的值，供 calculate 讀取)
+    // 保持 name 與以前一樣，這樣 calculate 函式不用大改
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = ym;
+    hiddenInput.value = def;
+    row.appendChild(hiddenInput);
+
+    // 按鈕群組
+    const btnGroup = document.createElement("div");
+    btnGroup.className = "month-btn-group";
+
     for (let i = 1; i <= 5; i++) {
-      const opt = document.createElement("option");
-      opt.value = i;
-      opt.text = i === 5 ? "全科" : `${i} 科`;
-      if (String(i) === def) opt.selected = true;
-      select.appendChild(opt);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "month-btn";
+      btn.innerText = (i === 5) ? "全科" : i; // 1, 2, 3, 4, 全科
+      
+      // 預設選中
+      if (String(i) === def) {
+        btn.classList.add("active");
+      }
+
+      // 點擊事件
+      btn.onclick = function() {
+        hiddenInput.value = i;
+        // 更新視覺
+        const siblings = btnGroup.querySelectorAll(".month-btn");
+        siblings.forEach(sb => sb.classList.remove("active"));
+        this.classList.add("active");
+      };
+
+      btnGroup.appendChild(btn);
     }
-    const div = document.createElement("div");
-    div.innerHTML = `<strong>${ym}</strong> `;
-    div.appendChild(select);
-    container.appendChild(div);
+
+    row.appendChild(btnGroup);
+    container.appendChild(row);
+
     cur.setMonth(cur.getMonth() + 1);
   }
 });
 
-document.querySelectorAll('input[name="studentType"]').forEach(el => {
-  el.addEventListener('change', () => {
-    const isCustom = document.getElementById("typeCustom").checked;
-    const input = document.getElementById("customFormula");
-    input.disabled = !isCustom;
-    if (!isCustom) input.value = "";
+// 修改：輸入框自動觸發邏輯
+const customInput = document.getElementById("customFormula");
+// 當輸入框獲得焦點或輸入內容時
+['focus', 'input'].forEach(evt => {
+  customInput.addEventListener(evt, () => {
+    document.getElementById("typeCustom").checked = true;
   });
 });
+
+// 其他 Radio 切換時，不需要特別清空輸入框，保持靈活性
+// 但如果切回新/舊生，輸入框雖然有值但不會被計算邏輯採用
 
 function calculate() {
   const grade = parseInt(document.querySelector('input[name="grade"]:checked').value);
@@ -459,24 +537,26 @@ function calculate() {
 
   while (cur <= end) {
     const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
+    
     // 正確升級邏輯
-let startYear = start.getFullYear();
-let startMonth = start.getMonth() + 1;
-let curYear = cur.getFullYear();
-let curMonth = cur.getMonth() + 1;
-let upgrade = 0;
-if ((curYear > startYear) || (curYear === startYear && curMonth >= 7 && startMonth < 7)) {
-  let startGradeJuly = (startMonth >= 7) ? startYear : startYear - 1;
-  let curGradeJuly = (curMonth >= 7) ? curYear : curYear - 1;
-  upgrade = curGradeJuly - startGradeJuly;
-}
-let g = grade + upgrade;
-if (g > 3) g = 3;
+    let startYear = start.getFullYear();
+    let startMonth = start.getMonth() + 1;
+    let curYear = cur.getFullYear();
+    let curMonth = cur.getMonth() + 1;
+    let upgrade = 0;
+    if ((curYear > startYear) || (curYear === startYear && curMonth >= 7 && startMonth < 7)) {
+      let startGradeJuly = (startMonth >= 7) ? startYear : startYear - 1;
+      let curGradeJuly = (curMonth >= 7) ? curYear : curYear - 1;
+      upgrade = curGradeJuly - startGradeJuly;
+    }
+    let g = grade + upgrade;
+    if (g > 3) g = 3;
 
     const cat = getCategory(cur);
     let sub = defSub;
     if (isCustom) {
-      const customInput = document.querySelector(`select[name="${ym}"]`);
+      // 這裡原本是 select，現在是 hidden input，但用法一樣
+      const customInput = document.querySelector(`input[name="${ym}"]`);
       if (customInput) sub = parseInt(customInput.value);
     }
 
@@ -568,14 +648,51 @@ if (g > 3) g = 3;
       <div style="color:#d35400;">📙 第二期（#07-12）：${term2.toLocaleString()} 元</div>
     `;
   }
+// --- 最終版：移除刪除線 + 改標題 + 換底色 ---
   document.getElementById("summary").innerHTML = `
-    <div style="border: 2px solid #ccc; border-radius: 8px; padding: 1.2em; background-color: #fdfdfd; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-      <div style="background-color: #f7f7f7; padding: 0.5em 0.8em; border-radius: 6px; font-size: 1.2em; font-weight: bold; margin-bottom: 0.8em;">
-        💰 總學費：${final.toLocaleString()} 元
+    <div style="display: flex; align-items: stretch; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+      
+      <div style="flex: 1; background: linear-gradient(135deg, #5bc0de, #419bb2); color: white; padding: 1.5em 1em; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 0.2em;">應繳學費</div>
+        <div style="font-size: 2em; font-weight: bold;">$${final.toLocaleString()}</div>
       </div>
-      <div style="font-size: 0.95em; color: #555; margin-bottom: 0.5em;">${note}</div>
-      ${monthNote}
-      ${termNote}
+
+      <div style="flex: 1.3; padding: 1.2em; display: flex; flex-direction: column; justify-content: center; font-size: 0.95em;">
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
+          <span style="color: #888;">期間</span>
+          <strong>${months} 個月</strong>
+        </div>
+
+        ${months === 12 ? `
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
+          <span style="color: #888;">第一期</span>
+          <span style="color: #555;">$${term1.toLocaleString()}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
+          <span style="color: #888;">第二期</span>
+          <span style="color: #555;">$${term2.toLocaleString()}</span>
+        </div>
+        <div style="border-bottom: 1px dashed #eee; margin-bottom: 0.4em;"></div>
+        ` : ''}
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
+          <span style="color: #888;">學費</span>
+          <span>$${total.toLocaleString()}</span>
+        </div>
+
+        ${total !== final ? `
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em; color: #d35400;">
+          <span style="color: #888;">折扣</span>
+          <strong>-$${(total - final).toLocaleString()}</strong>
+        </div>
+        ` : ''}
+
+        <div style="font-size: 0.8em; color: #999; margin-top: 0.2em; line-height: 1.3; text-align: right;">
+          ${note.replace(/\(原價.*?\)/, '')}
+        </div>
+
+      </div>
     </div>
   `;
   document.getElementById("details").innerHTML = `
@@ -626,7 +743,7 @@ function setStartNextNextMonth() {
 <div id="details"></div>
 <div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
 <script>
-  const currentVersion = "20250706"; //更新版本記得改這裡
+  const currentVersion = "20260308"; //更新版本記得改這裡
   document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
 <script>
