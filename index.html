@@ -2,7 +2,6 @@
 <html lang="zh-Hant">
 <head>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-
 <!--  
   🌟 林澈 學費計算器
   ----------------------------
@@ -24,309 +23,446 @@
     - 所有與畫面有關的樣式已集中於 <style> 區塊
 
   🧠 自動更新要做的事：
-    - 請按ctrl+f搜尋 「20260308」，更新日期後，再重新上傳github
+    - 再重新上傳github
 	- 上傳後再line公告記得重新整理
 -->
 
+
 <meta charset="utf-8"/>
 <link rel="icon" href="logo2.png" type="image/png">
-<title>林澈學費計算器</title>
+<title>林澈學費計算器 20260514更新</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2c3e50">
 
 <style>
-/* ...（原樣式保留）... */
-.divider-vertical {
-  display: inline-block;
-  width: 3px;
-  height: 2em;
-  background-color: #ccc;
-  vertical-align: middle;
-  margin: 0 0.3em;
-}
-#defaultSub-buttons {
-  display: flex;
-  gap: 1em;
-  margin-top: 0em;
-}
-.sub-btn {
-  padding: 0.4em 1.2em;
-  background-color: #2c3e50;
-  cursor: pointer;
-  font-size: 1em;
-  color: white; /* 修正文字顏色 */
-  border: 1px solid #2c3e50;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-#defaultSub-buttons .sub-btn.active {
-  background-color: #E2B64E;
-  border-color: #E2B64E;
-  color: white;
-  font-weight: bold;
-}
-/* 新增：每月設定的按鈕樣式 */
-.month-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.8em;
-  padding-bottom: 0.5em;
-  border-bottom: 1px dashed #eee;
-}
-.month-label {
-  font-weight: bold;
-  min-width: 6em;
-  margin-right: 1em;
-}
-.month-btn-group {
-  display: flex;
-  gap: 0.5em;
-}
-.month-btn {
-  padding: 0.3em 0.8em;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: #555;
-  transition: all 0.1s;
-}
-.month-btn:hover {
-  background-color: #f0f0f0;
-}
-.month-btn.active {
-  background-color: #E2B64E;
-  color: white;
-  border-color: #E2B64E;
-  font-weight: bold;
+/* 基礎重置與排版 */
+* { box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', 'PingFang TC', 'Noto Sans TC', sans-serif;
+  background-color: #f8fafc;
+  color: #334155;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px; /* 縮減整體外距 */
+  line-height: 1.5;
 }
 
-#calculateBtn {
-  background: linear-gradient(#E2B64E, #E2B64E);
-  color: white;
-  border: none;
-  border-radius: 16px;
-  padding: 0.5em 3em;
-  font-size: 1.2em;
-  font-weight: bold;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
-#calculateBtn:hover {
-  background: linear-gradient(135deg, #B46C4B, #B46C4B);
-  transform: scale(1.05);
-}
-.date-section {
+/* 標題區塊 */
+.header-section {
   display: flex;
-  gap: 2em;
-  align-items: flex-start;
-  margin-bottom: 1.5em;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px; /* 縮減標題下方距離 */
 }
-.date-controls {
-  flex: 2;
+.header-section img {
+  width: 50px; height: 50px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
 }
-.date-notes {
-  flex: 1.6;
-  border-left: 4px solid #2c3e50;
-  padding-left: 1.2em;
-  background-color: #f8f8f8;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: #444;
+.header-title {
+  font-size: 2em;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
 }
-body {
-  font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
-  background-color: #f5f7fa;
-  color: #2c3e50;
-  max-width: 850px;
-  margin: 10px auto;
-  padding: 1px 10px 20px 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  border-radius: 8px;
+.header-subtitle {
+  font-size: 0.55em;
+  font-weight: 900;
+  background: linear-gradient(135deg, #2c3e50 0%, #E2B64E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.05);
+}
+.header-tag {
+  font-size: 0.35em;
+  color: #fff;
+  background: #ef4444;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+/* 專業卡片佈局 (高度壓縮版) */
+.card {
   background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 20px; /* 縮減卡片內距 */
+  margin-bottom: 15px; /* 縮減卡片間距 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f1f5f9;
 }
-h2 {
-  border-bottom: 2px solid #2c3e50;
-  padding-bottom: 0.3em;
+.card-title {
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-label {
-  font-weight: 600;
-  margin-top: 1em;
-  color: #34495e;
+.card-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 16px;
+  background-color: #E2B64E;
+  border-radius: 2px;
 }
-select, input[type=month], input[type=text] {
-  padding: 0.5em;
-  width: 100%;
-  max-width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fdfdfd;
-  font-size: 1em;
-  margin-top: 0.3em;
+
+/* 分隔線 */
+.divider-vertical {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: #cbd5e1;
+  margin: 0 0.5em;
 }
-input[type=checkbox] {
-  transform: scale(1.2);
-  margin-right: 0.5em;
+
+/* 表單元件精緻化 */
+input[type=text], input[type=month], select {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  font-size: 0.9em;
+  color: #334155;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-button {
-  /* 一般按鈕樣式 */
+input[type=text]:focus {
+  border-color: #E2B64E;
+  box-shadow: 0 0 0 3px rgba(226, 182, 78, 0.15);
+  background-color: #fff;
 }
-/* 覆蓋通用按鈕樣式以免影響自訂按鈕 */
+input[type=radio], input[type=checkbox] {
+  transform: scale(1.1);
+  accent-color: #E2B64E;
+  margin: 0;
+}
+.radio-label {
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  gap: 6px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+.radio-label:hover {
+  background-color: #f1f5f9;
+}
+.highlight-label {
+  cursor: pointer; 
+  display: inline-flex; 
+  align-items: center; 
+  color: #b45309; 
+  font-weight: 600; 
+  background-color: #fffbeb; 
+  padding: 4px 10px; 
+  border-radius: 6px; 
+  border: 1px dashed #f59e0b;
+}
+
+/* 深藍色日期按鈕 */
 .ctrl-btn {
   background-color: #2c3e50;
   color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.6em 1.4em;
-  margin: 0.4em 0.4em 0 0;
+  border: 1px solid #2c3e50;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.9em;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s;
+  font-weight: 600;
+  transition: none; /* 保留極速手感 */
 }
 .ctrl-btn:hover {
-  background-color: #1a242f;
+  background-color: #1e293b;
+  border-color: #1e293b;
+}
+.ctrl-btn-wrap {
+  margin: 0 6px 6px 0;
+  display: inline-block;
 }
 
+/* 醒目的日期顯示面板 */
+.date-display {
+  background-color: #f0f9ff !important;
+  border: 2px solid #bae6fd !important;
+  color: #0369a1 !important;
+  font-weight: 800 !important;
+  font-size: 1.05em !important;
+  cursor: not-allowed;
+  text-align: center;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* 日期區塊佈局 */
+.date-section {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+.date-controls {
+  flex: 1.2;
+}
+.date-notes {
+  flex: 1;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 0.8em;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+.date-notes ul { margin: 0; padding-left: 20px; }
+.date-notes li { margin-bottom: 2px; }
+.date-notes strong { color: #1e293b; display: inline-block; margin-top: 8px; }
+
+/* 科目按鈕：深藍底色，點擊變黃色 */
+#defaultSub-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.sub-btn {
+  padding: 6px 18px;
+  background-color: #2c3e50;
+  color: white; 
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+  border: 1px solid #2c3e50;
+  border-radius: 8px;
+  transition: none; 
+}
+.sub-btn.active { background-color: #E2B64E; border-color: #E2B64E; color: white; }
+
+/* 每月設定區塊 */
+.month-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.month-row:last-child { border-bottom: none; }
+.month-row:hover { background-color: #f8fafc; border-radius: 8px; }
+.month-label { font-weight: 600; min-width: 80px; color: #334155; font-size: 0.9em; }
+.month-btn-group { display: flex; gap: 6px; }
+.month-btn {
+  padding: 4px 12px;
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: #64748b;
+  transition: none; 
+}
+.month-btn.active { background-color: #E2B64E; color: white; border-color: #E2B64E; }
+
+/* 主計算按鈕 */
+#calculateBtn {
+  background: #E2B64E;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 35px;
+  font-size: 1.1em;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: block;
+  margin: 5px auto 20px;
+  box-shadow: 0 4px 15px rgba(226, 182, 78, 0.4);
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+#calculateBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(226, 182, 78, 0.5); background: #d4a33c; }
+#calculateBtn:active { transform: translateY(1px); }
+
+/* 專業數據表格 (極致空間壓縮) */
 table {
-  margin-top: 1em;
-  border-collapse: collapse;
   width: 100%;
-  background-color: #fafbfc;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
 }
 th {
   background-color: #2c3e50;
   color: white;
-}
-th, td {
-  border: 1px solid #d1d5da;
-  padding: 0.5em;
+  font-weight: 600;
+  font-size: 0.85em; /* 縮小表頭字體 */
+  padding: 6px 8px; /* 大幅壓縮高度 */
   text-align: center;
 }
-#summary {
-  margin-top: 2em;
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #2c3e50;
+td {
+  padding: 5px 8px; /* 大幅壓縮內容列高度 */
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+  background-color: #fff;
+  font-size: 0.85em; /* 縮小表格字體 */
 }
-@media screen and (max-width: 600px) {
-  body {
-    padding: 15px;
-    margin: 0;
-    font-size: 0.95em;
-  }
-  .date-section {
-    flex-direction: column;
-    gap: 1em;
-  }
-  .date-controls, .date-notes {
-    width: 100%;
-    flex: 1;
-  }
-  .ctrl-btn {
-    width: 100%;
-    margin-bottom: 0.5em;
-  }
-  select, input[type=month], input[type=text] {
-    width: 100%;
-    max-width: none;
-  }
-  .month-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .month-btn-group {
-    width: 100%;
-    justify-content: space-between;
-    margin-top: 0.5em;
-  }
-  .month-btn {
-    flex: 1;
-    padding: 0.5em 0;
-  }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background-color: #f8fafc; }
+
+/* Modal 專用樣式與防呆主題色 */
+#gridModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.grid-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  width: 360px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border-top: 6px solid #E2B64E;
+}
+.grid-title { margin-top: 0; text-align: center; color: #1e293b; font-weight: 800; font-size: 1.3em;}
+.grid-label { margin-bottom: 10px; font-weight: 700; color: #475569; font-size: 0.9em; }
+.btn-grid-year { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+.btn-grid-month { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 30px; }
+
+.year-curr { border-bottom: 3px solid #E2B64E; }
+.year-next { border-bottom: 3px solid #419bb2; }
+.year-next2 { border-bottom: 3px solid #d35400; }
+.year-other { border-bottom: 3px solid #95a5a6; }
+
+#gridModal.theme-curr .grid-container { border-top-color: #E2B64E; }
+#gridModal.theme-curr .month-btn.active { background-color: #E2B64E; border-color: #E2B64E; color: white;}
+#gridModal.theme-curr .btn-confirm { background-color: #E2B64E; color: white; border-color: #E2B64E; }
+
+#gridModal.theme-next .grid-container { border-top-color: #419bb2; }
+#gridModal.theme-next .month-btn.active { background-color: #419bb2; border-color: #419bb2; color: white;}
+#gridModal.theme-next .btn-confirm { background-color: #419bb2; color: white; border-color: #419bb2; }
+
+#gridModal.theme-next2 .grid-container { border-top-color: #d35400; }
+#gridModal.theme-next2 .month-btn.active { background-color: #d35400; border-color: #d35400; color: white;}
+#gridModal.theme-next2 .btn-confirm { background-color: #d35400; color: white; border-color: #d35400; }
+
+@media screen and (max-width: 768px) {
+  body { padding: 15px; }
+  .date-section { flex-direction: column; gap: 15px; }
+  .date-controls, .date-notes { width: 100%; flex: auto; }
+  .ctrl-btn-wrap { width: 100%; margin-bottom: 8px; margin-right: 0; }
+  .ctrl-btn { width: 100%; }
+  .month-row { flex-direction: column; align-items: flex-start; }
+  .month-btn-group { width: 100%; flex-wrap: wrap; margin-top: 10px; }
+  .month-btn { flex: 1; text-align: center; }
+  .grid-container { width: 90%; padding: 20px; }
 }
 </style>
 </head>
 <body>
-<h2 style="display: flex; align-items: center; gap: 0.2em; font-size: 3em;">
-  <img src="logo192.png" alt="Logo" style="width: 64px; height: 64px;"/>
-  <span>林澈 <span style="font-size: 0.75em;">學費計算器 <span style="font-size: 0.5em ;color:red;">已更新2026/7學費</span></span></span>
-</h2>
 
-<div>
-<hr/>
-<div style="margin-bottom: 1em;">
-<span style="display:inline-block; font-weight:600; margin-right: 1em;">🔸年級：</span>
-<input checked="" id="grade1" name="grade" type="radio" value="1"/>
-<label for="grade1" style="margin-right: 1.5em;">國一</label>
-<input id="grade2" name="grade" type="radio" value="2"/>
-<label for="grade2" style="margin-right: 1.5em;">國二</label>
+<div class="header-section">
+  <img src="logo192.png" alt="Logo"/>
+  <h2 class="header-title">
+    林澈 
+    <span class="header-subtitle">學費計算器</span>
+    <span class="header-tag">已更新2026/7學費</span>
+  </h2>
+</div>
+
+<div class="card">
+  <div class="card-title">基本設定</div>
   
+  <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.8em; margin-bottom: 0.8em;">
+    <span style="font-weight:600; color:#475569; width: 50px;">年級：</span>
+    <label class="radio-label">
+      <input checked="" id="grade1" name="grade" type="radio" value="1"/> 國一
+    </label>
+    <label class="radio-label">
+      <input id="grade2" name="grade" type="radio" value="2"/> 國二
+    </label>
     <span class="divider-vertical"></span>
-<input id="grade3" name="grade" type="radio" value="3"/>
-<label for="grade3">國三</label>
+    <label class="radio-label">
+      <input id="grade3" name="grade" type="radio" value="3"/> 國三
+    </label>
+  </div>
+
+  <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.8em;">
+    <span style="font-weight:600; color:#475569; width: 50px;">優待：</span>
+    <label class="radio-label">
+      <input checked="" id="typeNew" name="studentType" type="radio" value="new"/> 新生
+    </label>
+    <label class="radio-label">
+      <input id="typeOld" name="studentType" type="radio" value="old"/> 舊生
+    </label>
+    <span class="divider-vertical"></span>
+    <label class="radio-label" style="color: #0f172a;">
+      <input id="typeCustom" name="studentType" type="radio" value="custom"/> 國三生 / 自訂
+    </label>
+    <input id="customFormula" placeholder="例4000或*0.9" style="width: 110px;" type="text"/>
+
+    <label class="highlight-label">
+      <input type="checkbox" id="siblingDiscount" style="transform: scale(1.3); margin: 0 4px 0 0; accent-color: #d35400;"/> 
+      兄弟姊妹
+    </label>
+  </div>
 </div>
 
-<div style="margin-bottom: 1em;">
-  <span style="display:inline-block; font-weight:600; margin-right: 1em;">🔸優待：</span>
-  
-  <input checked="" id="typeNew" name="studentType" type="radio" value="new"/>
-  <label for="typeNew" style="margin-right: 1.5em; cursor: pointer;">新生</label>
-  
-  <input id="typeOld" name="studentType" type="radio" value="old"/>
-  <label for="typeOld" style="margin-right: 1.5em; cursor: pointer;">舊生</label>
-  
-  <span class="divider-vertical"></span>
+<div class="card">
+  <div class="card-title">日期區間</div>
+  <div class="date-section">
+    <div class="date-controls">
+      
+      <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">開始月份</div>
+      <div style="display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 8px;">
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartThisMonth()" type="button">這個月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextMonth()" type="button">下個月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextNextMonth()" type="button">下下個月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="enableStartManual()" type="button">自訂開始</button></div>
+      </div>
+      <input id="start" readonly="" class="date-display" style="margin-bottom: 15px;" type="month"/>
+      
+      <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">結束月份</div>
+      <div style="display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 8px;">
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setRange(6)" type="button">往後 6 個月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setRange(12)" type="button">往後 12 個月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="enableCustom()" type="button">自訂結束</button></div>
+      </div>
+      <input id="end" readonly="" class="date-display" type="month"/>
+      
+      <div id="warningMessage" style="color: #ef4444; font-weight: bold; margin-top: 5px; min-height: 20px; font-size: 0.9em;"></div>
+    </div>
+    
+    <div class="date-notes">
+      <strong style="margin-top:0;">📌 舊學費</strong>
+      <ul>
+        <li>國一：3300 / 5300 / 6800 / 7500</li>
+        <li>國二：3300 / 5300 / 6800 / 8000</li>
+        <li>國三07-08月：5000 / 7000 / 9000 / 11000 / 12000</li>
+        <li>國三09-12月：3800 / 5800 / 7500 / 8500 / 9500</li>
+        <li>國三01-04月：4200 / 6500 / 8500 / 9500 / 10500</li>
+        <li>國三5月會考：3000 / 4000 / 5000 / 6000 / 7000</li>
+      </ul>
+      <strong>📌 2026/07後新學費</strong>
+      <ul>
+        <li>國一、國二：3500 / 6000 / 8000 / 8500</li>
+        <li>國三07-08月：5000 / 8000 / 10000 / 12000 / 14000</li>
+        <li>國三09-12月：4000 / 7000 / 9000 / 10000 / 11000</li>
+        <li>國三01-04月：5000 / 8000 / 10000 / 12000 / 13000</li>
+        <li>國三5月會考：3000 / 5000 / 6000 / 7000 / 8000</li>
+      </ul>
+<strong>📌學費折扣-國一二</strong>
+ <ul>
+<li>國一二舊生半年繳2科以下-1000/3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」</strong>
+</ul>
 
-  <input id="typeCustom" name="studentType" type="radio" value="custom"/>
-  <label for="typeCustom" style="cursor: pointer;">國三生 / 自訂</label>
-  <input id="customFormula" placeholder="例4000或*0.9" style="width: 100px; margin-left: 0.5em; padding: 0.3em;" type="text"/>
-
-  <label style="cursor: pointer; display: inline-flex; align-items: center; color: #d35400; font-weight: bold; background-color: #fff6e6; padding: 2px 8px; border-radius: 4px; border: 1px dashed #f39c12; margin-left: 1em; vertical-align: middle;">
-    <input type="checkbox" id="siblingDiscount" style="transform: scale(1.3); margin-right: 0.5em; accent-color: #d35400;"/> 
-    兄弟姊妹
-  </label>
-</div>
-
-
-<hr/>
-<div class="date-section">
-<div class="date-controls">
-<label>🔸開始月份：</label>
-<div style="display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 0.5em;">
-<button class="ctrl-btn" onclick="setStartThisMonth()" type="button">這個月</button>
-<button class="ctrl-btn" onclick="setStartNextMonth()" type="button">下個月</button>
-<button class="ctrl-btn" onclick="setStartNextNextMonth()" type="button">下下個月</button>
-<button class="ctrl-btn" onclick="enableStartManual()" type="button">自訂開始月份</button>
-</div>
-<input id="start" readonly="" style="background-color: #f0f0f0;" type="month"/>
-<div style="margin-top: 1.5em;"></div>
-<label>🔸結束月份：</label>
-<div style="display: flex; gap: 1em; flex-wrap: wrap;">
-<button class="ctrl-btn" onclick="setRange(6)" type="button">往後 6 個月</button>
-<button class="ctrl-btn" onclick="setRange(12)" type="button">往後 12 個月</button>
-<button class="ctrl-btn" onclick="enableCustom()" type="button">自訂結束月份</button>
-</div>
-<input id="end" readonly="" style="background-color:#f0f0f0; margin-top: 0.5em;" type="month"/>
-</div>
-<div class="date-notes">
-<br><strong>📌 舊學費 </strong></br>
-<li>國一：3300 / 5300 / 6800 / 7500</li>
-<li>國二：3300 / 5300 / 6800 / 8000</li>
-<li>國三07-08月：5000 / 7000 / 9000 / 11000 / 12000</li>
-<li>國三09-12月：3800 / 5800 / 7500 / 8500 / 9500</li>
-<li>國三01-04月：4200 / 6500 / 8500 / 9500 / 10500</li>
-<li>國三5月會考：3000 / 4000 / 5000 / 6000 / 7000</li>
-<br><strong>📌 2026/07後新學費 </strong></br>
-<li>國一、國二：3500 / 6000 / 8000 / 8500</li>
-<li>國三07-08月：5000 / 8000 / 10000 / 12000 / 14000</li>
-<li>國三09-12月：4000 / 7000 / 9000 / 10000 / 11000</li>
-<li>國三01-04月：5000 / 8000 / 10000 / 12000 / 13000</li>
-<li>國三5月會考：3000 / 5000 / 6000 / 7000 / 8000</li>
-<br><strong>📌學費折扣</strong>
-<br><strong><li>國一二舊生半年繳2科以下-1000/3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」<br></strong></li>
-<br><strong><li>國三請用「自訂」，繳到會考</strong></br></li>
+<strong>📌學費折扣-國三繳到會考 (請用「自訂」)</strong>
+ <ul>
 <li>7.8月舊生：9折。/新生：2科-3000，3科以上-5000</li>
 <li>09月舊生：-4000/-4000/-4000/-2000/-2000</li>
 <li>10月舊生：-3000/-3000/-3000/-1000/-1000</li>
@@ -335,134 +471,194 @@ th, td {
 <li>01月舊生：-1000/-1000/-1000/-500/-500</li>
 <li>02月舊生：-1000/-1000/-1000/-500/-500</li>
 </ul>
-</div>
-</div>
-<div>
-</div>
-</div>
-<div id="warningMessage" style="color: #d35400; font-weight: bold; margin: 0em 0;"></div>
-<hr/>
-<label>🔸科目：</label>
-<div id="defaultSub-buttons">
-  <button type="button" class="sub-btn" data-value="1">1 科</button>
-  <button type="button" class="sub-btn" data-value="2">2 科</button>
-  <button type="button" class="sub-btn" data-value="3">3 科</button>
-  <button type="button" class="sub-btn" data-value="4">4 科</button>
-  <button type="button" class="sub-btn" data-value="5">全科</button>
-</div>
-<input type="hidden" id="defaultSub" name="defaultSub" value="5"/>
-
-<div style="margin-bottom: 0.5em;">
-  <label style="cursor: pointer; display: inline-flex; align-items: center; color: #d35400; font-weight: bold; background-color: #fff6e6; padding: 2px 8px; border-radius: 4px; border: 1px dashed #f39c12;">
-    <input id="customToggle" style="transform: scale(1.2); margin-right: 0.5em; accent-color: #d35400;" type="checkbox"/>
-    啟用每月個別設定
-  </label>
+    </div>
+  </div>
 </div>
 
-<div id="monthSettings" style="margin-top: 1em; padding-left: 0.5em;"></div>
-<hr/>
-<button id="calculateBtn" onclick="calculate()">計算</button>
-<h3 id="summary"></h3>
+<div class="card">
+  <div class="card-title">科目設定</div>
+  <div style="margin-bottom: 15px;">
+    <div id="defaultSub-buttons">
+      <button type="button" class="sub-btn" data-value="1">1 科</button>
+      <button type="button" class="sub-btn" data-value="2">2 科</button>
+      <button type="button" class="sub-btn" data-value="3">3 科</button>
+      <button type="button" class="sub-btn" data-value="4">4 科</button>
+      <button type="button" class="sub-btn" data-value="5">全科</button>
+    </div>
+    <input type="hidden" id="defaultSub" name="defaultSub" value="5"/>
+  </div>
+
+  <div>
+    <label style="cursor: pointer; display: inline-flex; align-items: center; gap:6px; color: #b45309; font-weight: 600; background-color: #fffbeb; padding: 4px 10px; border-radius: 6px; border: 1px dashed #f59e0b; font-size: 0.9em;">
+      <input id="customToggle" style="transform: scale(1.1); margin:0; accent-color: #d35400;" type="checkbox"/>
+      啟用每月個別設定
+    </label>
+  </div>
+  <div id="monthSettings" style="margin-top: 10px;"></div>
+</div>
+
+<button id="calculateBtn" onclick="calculate()">立即計算</button>
+
+<div id="summary"></div>
 <div id="details"></div>
 
+<div id="gridModal" class="theme-curr">
+  <div class="grid-container">
+    <h3 class="grid-title">請選擇月份</h3>
+    <div class="grid-label">📍 年份</div>
+    <div id="gridYear" class="btn-grid-year"></div>
+    <div class="grid-label">📍 月份</div>
+    <div id="gridMonth" class="btn-grid-month"></div>
+    <div style="display:flex; justify-content:flex-end; gap: 12px; margin-top: 10px;">
+      <button class="ctrl-btn" onclick="document.getElementById('gridModal').style.display='none'" style="background:#e2e8f0; color:#334155; border:none;">取消</button>
+      <button class="ctrl-btn btn-confirm" onclick="confirmGrid()">確定</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// 20250628: 動態學費表
-// 202607起新的學費表
 const tableFuture = {
-  // 2026/7月起，國一、國二
-  1: { // 國一
-    '1-4': [3500, 6000, 8000, 8500, 8500], // 1-4月
-    '5月':  [3500, 6000, 8000, 8500, 8500],
-    '7-8': [3500, 6000, 8000, 8500, 8500],
-    '9-12': [3500, 6000, 8000, 8500, 8500],
-  },
-  2: { // 國二
-    '1-4': [3500, 6000, 8000, 8500, 8500],
-    '5月':  [3500, 6000, 8000, 8500, 8500],
-    '7-8': [3500, 6000, 8000, 8500, 8500],
-    '9-12': [3500, 6000, 8000, 8500, 8500],
-  },
-  3: { // 國三
-    '1-4': [5000, 8000, 10000, 12000, 13000], // 1-4月
-    '5月':  [3000, 5000, 6000, 7000, 8000],   // 5月會考
-    '7-8': [5000, 8000, 10000, 12000, 14000],
-    '9-12': [4000, 7000, 9000, 10000, 11000],
-  }
+  1: { '1-4': [3500, 6000, 8000, 8500, 8500], '5月': [3500, 6000, 8000, 8500, 8500], '7-8': [3500, 6000, 8000, 8500, 8500], '9-12': [3500, 6000, 8000, 8500, 8500] },
+  2: { '1-4': [3500, 6000, 8000, 8500, 8500], '5月': [3500, 6000, 8000, 8500, 8500], '7-8': [3500, 6000, 8000, 8500, 8500], '9-12': [3500, 6000, 8000, 8500, 8500] },
+  3: { '1-4': [5000, 8000, 10000, 12000, 13000], '5月': [3000, 5000, 6000, 7000, 8000], '7-8': [5000, 8000, 10000, 12000, 14000], '9-12': [4000, 7000, 9000, 10000, 11000] }
 };
-// 2026/6月底前，原學費表
 const tableCurrent = {
   1: {'1-4': [3300, 5300, 6800, 7500, 7500], '5月': [3300,5300,6800,7500,7500], '7-8': [3300,5300,6800,7500,7500], '9-12': [3300,5300,6800,7500,7500]},
   2: {'1-4': [3300, 5300, 6800, 8000, 8000], '5月': [3300,5300,6800,8000,8000], '7-8': [3300,5300,6800,8000,8000], '9-12': [3300,5300,6800,8000,8000]},
   3: {'1-4': [4200, 6500, 8500, 9500, 10500], '5月': [3000,4000,5000,6000,7000], '7-8': [5000,7000,9000,11000,12000], '9-12': [3800,5800,7500,8500,9500]}
 };
-// 決定用哪個學費表
+
 function getFeeTable(year, month, grade) {
-  // 2026年7月起用新表
-  if (year > 2026 || (year === 2026 && month >= 7)) {
-    return tableFuture[grade];
-  }
-  // 2026/6月以前用舊表
+  if (year > 2026 || (year === 2026 && month >= 7)) return tableFuture[grade];
   return tableCurrent[grade];
 }
 
 function getCategory(d) {
   const m = d.getMonth() + 1;
   if (m === 5) return '5月';
-  if (m === 6) return '1-4';
-  if (m >= 1 && m <= 4) return '1-4';
+  if (m === 6 || (m >= 1 && m <= 4)) return '1-4';
   if (m >= 7 && m <= 8) return '7-8';
   return '9-12';
 }
 
+const customInputBox = document.getElementById("customFormula");
+['focus', 'input'].forEach(evt => {
+  customInputBox.addEventListener(evt, () => {
+    document.getElementById("typeCustom").checked = true;
+  });
+});
+
+let targetInputId = "start";
+let selectedGridYear = new Date().getFullYear();
+let selectedGridMonth = new Date().getMonth() + 1;
+
+function initGrid() {
+  const yearDiv = document.getElementById('gridYear');
+  const monthDiv = document.getElementById('gridMonth');
+  const currentYear = new Date().getFullYear();
+  let yHtml = '';
+  
+  for (let y = currentYear; y <= currentYear + 2; y++) {
+    let yClass = 'year-other';
+    if (y === currentYear) yClass = 'year-curr';
+    else if (y === currentYear + 1) yClass = 'year-next';
+    else if (y === currentYear + 2) yClass = 'year-next2';
+
+    yHtml += `<button type="button" class="month-btn year-btn ${yClass}" data-val="${y}" onclick="selectGridYear(${y})">${y}</button>`;
+  }
+  yearDiv.innerHTML = yHtml;
+  
+  let mHtml = '';
+  for (let m = 1; m <= 12; m++) {
+    mHtml += `<button type="button" class="month-btn mon-btn" data-val="${m}" onclick="selectGridMonth(${m})">${m}月</button>`;
+  }
+  monthDiv.innerHTML = mHtml;
+}
+
+function selectGridYear(y) {
+  selectedGridYear = y;
+  document.querySelectorAll('.year-btn').forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.val) === y));
+
+  const modal = document.getElementById('gridModal');
+  const currentYear = new Date().getFullYear();
+  modal.className = ''; 
+  
+  if (y === currentYear) modal.classList.add('theme-curr');
+  else if (y === currentYear + 1) modal.classList.add('theme-next');
+  else if (y === currentYear + 2) modal.classList.add('theme-next2');
+  else modal.classList.add('theme-other');
+}
+
+function selectGridMonth(m) {
+  selectedGridMonth = m;
+  document.querySelectorAll('.mon-btn').forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.val) === m));
+}
+
+function openGridModal(inputId) {
+  targetInputId = inputId;
+  const modal = document.getElementById('gridModal');
+  modal.style.display = 'flex';
+  
+  if (inputId === "start") {
+    const target = new Date();
+    target.setMonth(target.getMonth() + 3);
+    selectGridYear(target.getFullYear());
+    selectGridMonth(target.getMonth() + 1);
+  } else if (inputId === "end") {
+    const startInputVal = document.getElementById("start").value;
+    if (startInputVal) {
+      const [y, m] = startInputVal.split('-');
+      selectGridYear(parseInt(y));
+      selectGridMonth(parseInt(m));
+    } else {
+      const target = new Date();
+      selectGridYear(target.getFullYear());
+      selectGridMonth(target.getMonth() + 1);
+    }
+  }
+}
+
+function confirmGrid() {
+  const input = document.getElementById(targetInputId);
+  const mm = String(selectedGridMonth).padStart(2, '0');
+  input.value = `${selectedGridYear}-${mm}`;
+  document.getElementById('gridModal').style.display = 'none';
+  if (targetInputId === "start") {
+    const toggle = document.getElementById("customToggle");
+    if (toggle.checked) toggle.dispatchEvent(new Event("change"));
+  }
+}
+
+function enableStartManual() { openGridModal("start"); }
+function enableCustom() { openGridModal("end"); }
+
 function setRange(months) {
   const startVal = document.getElementById("start").value;
-  if (!startVal) {
-    alert("請先選擇起始月份");
-    return;
-  }
-
+  if (!startVal) { alert("請先選擇起始月份"); return; }
   const start = new Date(startVal);
   const end = new Date(start);
   end.setMonth(end.getMonth() + months - 1);
-
   const endInput = document.getElementById("end");
   const warning = document.getElementById("warningMessage");
   const grade = parseInt(document.querySelector('input[name="grade"]:checked').value);
-
-  // 計算國三的最遲結束月份（明年5月）
   if (grade === 3) {
     const maxEnd = new Date(start);
     maxEnd.setFullYear(maxEnd.getFullYear() + (start.getMonth() > 4 ? 1 : 0));
-    maxEnd.setMonth(4); // index 4 = 5月
-
+    maxEnd.setMonth(4);
     if (end > maxEnd) {
       end.setTime(maxEnd.getTime());
       warning.innerText = "⚠️ 國三最多到5月會考";
       setTimeout(() => { warning.innerText = ""; }, 3000);
-    } else {
-      warning.innerText = "";
-    }
-  } else {
-    warning.innerText = "";
-  }
-
+    } else { warning.innerText = ""; }
+  } else { warning.innerText = ""; }
   const yyyy = end.getFullYear();
   const mm = String(end.getMonth() + 1).padStart(2, '0');
   endInput.value = `${yyyy}-${mm}`;
-  endInput.readOnly = true;
-  endInput.style.backgroundColor = "#f0f0f0";
-
+  
   const toggle = document.getElementById("customToggle");
   if (toggle.checked) toggle.dispatchEvent(new Event("change"));
 }
 
-function enableCustom() {
-  const endInput = document.getElementById("end");
-  endInput.readOnly = false;
-  endInput.style.backgroundColor = "white";
-}
-
-// 修改：生成按鈕矩陣而非下拉選單
 document.getElementById("customToggle").addEventListener("change", () => {
   const custom = document.getElementById("customToggle").checked;
   const start = new Date(document.getElementById("start").value);
@@ -470,76 +666,42 @@ document.getElementById("customToggle").addEventListener("change", () => {
   const container = document.getElementById("monthSettings");
   container.innerHTML = "";
   if (!custom || isNaN(start) || isNaN(end) || start > end) return;
-
-  const def = document.getElementById("defaultSub").value; // 字串
+  const def = document.getElementById("defaultSub").value;
   const cur = new Date(start);
-  
   while (cur <= end) {
     const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
-    
-    // 建立列容器
     const row = document.createElement("div");
     row.className = "month-row";
-
-    // 月份標籤
     const label = document.createElement("span");
     label.className = "month-label";
     label.innerText = ym;
     row.appendChild(label);
-
-    // 隱藏的 Input (用來存儲該月真正的值，供 calculate 讀取)
-    // 保持 name 與以前一樣，這樣 calculate 函式不用大改
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = ym;
     hiddenInput.value = def;
     row.appendChild(hiddenInput);
-
-    // 按鈕群組
     const btnGroup = document.createElement("div");
     btnGroup.className = "month-btn-group";
-
     for (let i = 1; i <= 5; i++) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "month-btn";
-      btn.innerText = (i === 5) ? "全科" : i; // 1, 2, 3, 4, 全科
-      
-      // 預設選中
-      if (String(i) === def) {
-        btn.classList.add("active");
-      }
-
-      // 點擊事件
+      btn.innerText = (i === 5) ? "全科" : i;
+      if (String(i) === def) btn.classList.add("active");
       btn.onclick = function() {
         hiddenInput.value = i;
-        // 更新視覺
         const siblings = btnGroup.querySelectorAll(".month-btn");
         siblings.forEach(sb => sb.classList.remove("active"));
         this.classList.add("active");
       };
-
       btnGroup.appendChild(btn);
     }
-
     row.appendChild(btnGroup);
     container.appendChild(row);
-
     cur.setMonth(cur.getMonth() + 1);
   }
 });
-
-// 修改：輸入框自動觸發邏輯
-const customInput = document.getElementById("customFormula");
-// 當輸入框獲得焦點或輸入內容時
-['focus', 'input'].forEach(evt => {
-  customInput.addEventListener(evt, () => {
-    document.getElementById("typeCustom").checked = true;
-  });
-});
-
-// 其他 Radio 切換時，不需要特別清空輸入框，保持靈活性
-// 但如果切回新/舊生，輸入框雖然有值但不會被計算邏輯採用
 
 function calculate() {
   const grade = parseInt(document.querySelector('input[name="grade"]:checked').value);
@@ -548,250 +710,166 @@ function calculate() {
   const defSub = parseInt(document.getElementById("defaultSub").value);
   const isCustom = document.getElementById("customToggle").checked;
   const studentType = document.querySelector('input[name="studentType"]:checked').value;
-
-  if (isNaN(start) || isNaN(end) || start > end) {
-    alert("請確認起訖日期正確");
-    return;
-  }
-
+  
+  if (isNaN(start) || isNaN(end) || start > end) { alert("請確認起訖日期正確"); return; }
+  
   let cur = new Date(start);
-  let rows = [];
-  let total = 0;
-  let months = 0;
-  let term1 = 0;
-  let term2 = 0;
-
+  let monthData = [];
+  let subCounts = {};
+  let total = 0, months = 0, term1 = 0, term2 = 0;
+  
   while (cur <= end) {
     const ym = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
-    
-    // 正確升級邏輯
-    let startYear = start.getFullYear();
-    let startMonth = start.getMonth() + 1;
-    let curYear = cur.getFullYear();
-    let curMonth = cur.getMonth() + 1;
+    let startYear = start.getFullYear(), startMonth = start.getMonth() + 1;
+    let curYear = cur.getFullYear(), curMonth = cur.getMonth() + 1;
     let upgrade = 0;
+    
     if ((curYear > startYear) || (curYear === startYear && curMonth >= 7 && startMonth < 7)) {
       let startGradeJuly = (startMonth >= 7) ? startYear : startYear - 1;
       let curGradeJuly = (curMonth >= 7) ? curYear : curYear - 1;
       upgrade = curGradeJuly - startGradeJuly;
     }
-    let g = grade + upgrade;
-    if (g > 3) g = 3;
-
+    let g = Math.min(grade + upgrade, 3);
     const cat = getCategory(cur);
     let sub = defSub;
     if (isCustom) {
-      // 這裡原本是 select，現在是 hidden input，但用法一樣
       const customInput = document.querySelector(`input[name="${ym}"]`);
       if (customInput) sub = parseInt(customInput.value);
     }
-
-    // 決定這個月用哪張表
+    
     const table = getFeeTable(cur.getFullYear(), cur.getMonth() + 1, g);
-    // 4科空缺直接顯示0（新表沒4科價格）
     let fee = table[cat]?.[sub - 1] || 0;
-
-    total += fee;
+    
+    total += fee; 
     months++;
-    if (months <= 6) term1 += fee;
-    else term2 += fee;
-
-    rows.push(`<tr><td>${months}</td><td>${ym}</td><td>國${g}</td><td>${cat}</td><td>${sub === 5 ? "全科" : sub + " 科"}</td><td>${fee.toLocaleString()}</td></tr>`);
+    if (months <= 6) term1 += fee; else term2 += fee;
+    
+    monthData.push({ months, ym, g, cat, sub, fee });
+    subCounts[sub] = (subCounts[sub] || 0) + 1;
+    
     cur.setMonth(cur.getMonth() + 1);
   }
 
-  //舊生優待
   let discount = 0;
   if (months < 12 && studentType === "old") {
-    if (defSub <= 2) discount = 1000;
-    else if (defSub >= 3) discount = 2000;
+    if (defSub <= 2) discount = 1000; else if (defSub >= 3) discount = 2000;
   }
-
-  let final = total;
-  let note = "";
+  let final = total, note = "";
   const customType = document.getElementById("typeCustom").checked;
   let rawInput = document.getElementById("customFormula").value.trim();
-
-  function parseCustomDiscount(inputStr) {
-    const raw = inputStr.trim();
-    if (/^[*/]/.test(raw)) {
-      return { evalText: raw, displayText: raw, isFormula: true };
-    }
-    if (/^\d+(\.\d+)?$/.test(raw)) {
-      return { evalText: "-" + raw, displayText: raw, isFormula: false };
-    }
-    if (/^[+-]\d+(\.\d+)?$/.test(raw)) {
-      return { evalText: raw, displayText: raw.startsWith("-") ? raw.slice(1) : raw, isFormula: false };
-    }
-    return { evalText: raw, displayText: raw, isFormula: false };
-  }
-  const { evalText, displayText, isFormula } = parseCustomDiscount(rawInput);
-
+  
   if (customType && rawInput) {
     try {
-      const raw = eval(`${total}${evalText}`);
-      final = Math.ceil(raw / 100) * 100;
-
-      if (isFormula) {
-        note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText} = ${raw.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
-      } else {
-        note = `(原價 ${total.toLocaleString()})(自訂優待 ${displayText})`;
-      }
-    } catch (e) {
-      alert("⚠️ 無效的折扣公式，請重新輸入");
-      return;
-    }
+      const isFormula = /^[*/]/.test(rawInput);
+      const evalText = isFormula ? rawInput : (/^[+-]/.test(rawInput) ? rawInput : "-" + rawInput);
+      const rawFinal = eval(`${total}${evalText}`);
+      final = Math.ceil(rawFinal / 100) * 100;
+      note = isFormula ? `(原價 ${total.toLocaleString()})(自訂優待 ${rawInput} = ${rawFinal.toLocaleString()}，再進位為 ${final.toLocaleString()})` : `(原價 ${total.toLocaleString()})(自訂優待 ${rawInput})`;
+    } catch (e) { alert("⚠️ 無效的折扣公式"); return; }
   } else {
     final = total - discount;
     if (months === 12) {
       const raw90 = Math.floor(total * 0.9);
       final = Math.ceil(raw90 / 100) * 100;
       note = `(原價 ${total.toLocaleString()})(年繳優待*0.9= ${raw90.toLocaleString()}，再進位為 ${final.toLocaleString()})`;
-    } else {
-      if (studentType === "old" && discount > 0) {
-        note = `(原價 ${total.toLocaleString()})(舊生優待 ${discount.toLocaleString()})`;
-      } else if (studentType === "new") {
-        note = `(原價 ${total.toLocaleString()})`;
-      } else {
-        note = "";
-      }
+    } else if (studentType === "old" && discount > 0) {
+      note = `(原價 ${total.toLocaleString()})(舊生優待 ${discount.toLocaleString()})`;
     }
   }
-
-  // 兄弟姊妹折扣
-  const hasSibling = document.getElementById("siblingDiscount").checked;
-  if (hasSibling) {
-    final -= 1000;
-    note += `（兄弟姊妹優待1000）`;
-  }
-
-  let monthNoteColor = ([6, 12].includes(months)) ? "#2c3e50" : "red";
-  let monthNote = `<div style="color: ${monthNoteColor}; font-weight: bold;">🗓️ 總月份：${months} 個月</div>`;
-  let termNote = "";
-  if (months === 12) {
-    termNote = `
-      <div style="color:#2980b9;">📘 第一期（#01-06）：${term1.toLocaleString()} 元</div>
-      <div style="color:#d35400;">📙 第二期（#07-12）：${term2.toLocaleString()} 元</div>
-    `;
-  }
-// --- 最終版：移除刪除線 + 改標題 + 換底色 ---
+  if (document.getElementById("siblingDiscount").checked) { final -= 1000; note += `（兄弟姊妹優待1000）`; }
+  
+  // 渲染壓縮版總結面板
   document.getElementById("summary").innerHTML = `
-    <div style="display: flex; align-items: stretch; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-      
-      <div style="flex: 1; background: linear-gradient(135deg, #5bc0de, #419bb2); color: white; padding: 1.5em 1em; text-align: center; display: flex; flex-direction: column; justify-content: center;">
-        <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 0.2em;">應繳學費</div>
-        <div style="font-size: 2em; font-weight: bold;">$${final.toLocaleString()}</div>
+    <div style="display: flex; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px;">
+      <div style="flex: 1; background: #2c3e50; color: white; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-size: 0.85em; color: #cbd5e1; margin-bottom: 2px; font-weight: 600;">應繳總學費</div>
+        <div style="font-size: 2em; font-weight: 800; color: #E2B64E; letter-spacing: 1px;">$${final.toLocaleString()}</div>
       </div>
-
-      <div style="flex: 1.3; padding: 1.2em; display: flex; flex-direction: column; justify-content: center; font-size: 0.95em;">
-        
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
-          <span style="color: #888;">期間</span>
-          <strong>${months} 個月</strong>
+      <div style="flex: 1.5; padding: 15px; font-size: 0.9em; display: flex; flex-direction: column; justify-content: center; background: #ffffff;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span style="color: #64748b; font-weight: 600;">計算期間</span>
+          <strong style="color: #0f172a;">${months} 個月</strong>
         </div>
-
         ${months === 12 ? `
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
-          <span style="color: #888;">第一期</span>
-          <span style="color: #555;">$${term1.toLocaleString()}</span>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span style="color: #64748b; font-weight: 600;">第一期 (#01-06)</span>
+          <span style="color: #0f172a; font-weight: 500;">$${term1.toLocaleString()}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
-          <span style="color: #888;">第二期</span>
-          <span style="color: #555;">$${term2.toLocaleString()}</span>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="color: #64748b; font-weight: 600;">第二期 (#07-12)</span>
+          <span style="color: #0f172a; font-weight: 500;">$${term2.toLocaleString()}</span>
         </div>
-        <div style="border-bottom: 1px dashed #eee; margin-bottom: 0.4em;"></div>
-        ` : ''}
-
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em;">
-          <span style="color: #888;">學費</span>
-          <span>$${total.toLocaleString()}</span>
+        <div style="height: 1px; background: #e2e8f0; margin-bottom: 8px;"></div>` : ''}
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span style="color: #64748b; font-weight: 600;">原始學費</span>
+          <span style="color: #0f172a; font-weight: 500;">$${total.toLocaleString()}</span>
         </div>
-
         ${total !== final ? `
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4em; color: #d35400;">
-          <span style="color: #888;">折扣</span>
-          <strong>-$${(total - final).toLocaleString()}</strong>
-        </div>
-        ` : ''}
-
-        <div style="font-size: 0.8em; color: #999; margin-top: 0.2em; line-height: 1.3; text-align: right;">
+        <div style="display: flex; justify-content: space-between; color: #ef4444; font-weight: 600;">
+          <span>折扣減免</span>
+          <span>-$${(total - final).toLocaleString()}</span>
+        </div>` : ''}
+        <div style="font-size: 0.8em; color: #94a3b8; text-align: right; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #e2e8f0;">
           ${note.replace(/\(原價.*?\)/, '')}
         </div>
-
       </div>
-    </div>
-  `;
+    </div>`;
+
+  let modeSub = Object.keys(subCounts).reduce((a, b) => subCounts[a] > subCounts[b] ? a : b);
+  modeSub = parseInt(modeSub);
+  let initialGrade = monthData.length > 0 ? monthData[0].g : grade;
+  let rowsHtml = [];
+
+  monthData.forEach(d => {
+    let gradeHtml = `國${d.g}`;
+    if (d.g !== initialGrade) {
+      gradeHtml = `<span style="color: #059669; font-weight: 700; background: #d1fae5; padding: 2px 6px; border-radius: 4px; border: 1px solid #10b981;">國${d.g}</span>`;
+    }
+
+    let subHtml = d.sub === 5 ? "全科" : d.sub + " 科";
+    if (d.sub !== modeSub) {
+      subHtml = `<span style="color: #ef4444; font-weight: 700; background: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #f87171;">${subHtml}</span>`;
+    }
+
+    rowsHtml.push(`<tr><td>${d.months}</td><td>${d.ym}</td><td>${gradeHtml}</td><td>${d.cat}</td><td>${subHtml}</td><td>${d.fee.toLocaleString()}</td></tr>`);
+  });
+
   document.getElementById("details").innerHTML = `
-    <table>
-      <thead><tr><th>#</th><th>月份</th><th>年級</th><th>分類</th><th>科目數</th><th>學費</th></tr></thead>
-      <tbody>${rows.join('')}</tbody>
-    </table>
-  `;
+    <div class="card" style="padding:0; margin-bottom:0;">
+      <table>
+        <thead><tr><th>#</th><th>月份</th><th>年級</th><th>分類</th><th>科目數</th><th>小計</th></tr></thead>
+        <tbody>${rowsHtml.join('')}</tbody>
+      </table>
+    </div>`;
 }
 
 function setStartThisMonth() {
   const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  document.getElementById("start").value = `${yyyy}-${mm}`;
-  document.getElementById("start").readOnly = true;
-  document.getElementById("start").style.backgroundColor = "#f0f0f0";
+  document.getElementById("start").value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 function setStartNextMonth() {
-  const now = new Date();
-  now.setMonth(now.getMonth() + 1);
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  document.getElementById("start").value = `${yyyy}-${mm}`;
-  document.getElementById("start").readOnly = true;
-  document.getElementById("start").style.backgroundColor = "#f0f0f0";
-}
-function enableStartManual() {
-  const now = new Date();
-  now.setMonth(now.getMonth() + 3);
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const input = document.getElementById("start");
-  input.value = `${yyyy}-${mm}`;
-  input.readOnly = false;
-  input.style.backgroundColor = "white";
+  const now = new Date(); now.setMonth(now.getMonth() + 1);
+  document.getElementById("start").value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 function setStartNextNextMonth() {
-  const now = new Date();
-  now.setMonth(now.getMonth() + 2);
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  document.getElementById("start").value = `${yyyy}-${mm}`;
-  document.getElementById("start").readOnly = true;
-  document.getElementById("start").style.backgroundColor = "#f0f0f0";
+  const now = new Date(); now.setMonth(now.getMonth() + 2);
+  document.getElementById("start").value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
-</script>
-<div id="details"></div>
-<div id="version-info" style="margin-top: 2em; font-size: 0.85em; color: #888;"></div>
-<script>
-  const currentVersion = "20260308"; //更新版本記得改這裡
-  document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
-</script>
-<script>
-  document.querySelectorAll('.sub-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-      document.getElementById('defaultSub').value = this.dataset.value;
-    });
-  });
-</script>
-<script>
-  const subjectButtons = document.querySelectorAll('#defaultSub-buttons .sub-btn');
-  const hiddenInput = document.getElementById('defaultSub');
 
-  subjectButtons.forEach(btn => {
-    btn.addEventListener('click', function () {
-      hiddenInput.value = this.dataset.value;
-      subjectButtons.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-    });
+// 初始化
+initGrid();
+document.querySelectorAll('.sub-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    document.getElementById('defaultSub').value = this.dataset.value;
+    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
   });
-
-  document.querySelector('#defaultSub-buttons .sub-btn[data-value="5"]').classList.add('active');
+});
+document.querySelector('.sub-btn[data-value="5"]').classList.add('active');
+const currentVersion = "20260308";
+document.getElementById("version-info").textContent = `目前版本：${currentVersion}`;
 </script>
+<div id="version-info" style="margin-top: 1.5em; font-size: 0.85em; color: #94a3b8; text-align: center; font-weight: 600;"></div>
 </body>
 </html>
