@@ -46,6 +46,7 @@ body {
   margin: 0 auto;
   padding: 20px; /* 縮減整體外距 */
   line-height: 1.5;
+  font-size: 105%;
 }
 
 /* 標題區塊 */
@@ -379,7 +380,7 @@ tr:nth-child(even) td { background-color: #f8fafc; }
   <div class="card-title">基本設定</div>
   
   <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.8em; margin-bottom: 0.8em;">
-    <span style="font-weight:600; color:#475569; width: 50px;">年級：</span>
+    <span style="font-weight:600; color:#475569; white-space: nowrap; min-width: 65px;">🔸年級：</span>
     <label class="radio-label">
       <input checked="" id="grade1" name="grade" type="radio" value="1"/> 國一
     </label>
@@ -393,7 +394,7 @@ tr:nth-child(even) td { background-color: #f8fafc; }
   </div>
 
   <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.8em;">
-    <span style="font-weight:600; color:#475569; width: 50px;">優待：</span>
+   <span style="font-weight:600; color:#475569; white-space: nowrap; min-width: 65px;">🔸優待：</span>
     <label class="radio-label">
       <input checked="" id="typeNew" name="studentType" type="radio" value="new"/> 新生
     </label>
@@ -418,7 +419,7 @@ tr:nth-child(even) td { background-color: #f8fafc; }
   <div class="date-section">
     <div class="date-controls">
       
-      <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">開始月份</div>
+      <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">🔸開始月份</div>
       <div style="display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 8px;">
         <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartThisMonth()" type="button">這個月</button></div>
         <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextMonth()" type="button">下個月</button></div>
@@ -427,7 +428,7 @@ tr:nth-child(even) td { background-color: #f8fafc; }
       </div>
       <input id="start" readonly="" class="date-display" style="margin-bottom: 15px;" type="month"/>
       
-      <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">結束月份</div>
+      <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">🔸結束月份</div>
       <div style="display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 8px;">
         <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setRange(6)" type="button">往後 6 個月</button></div>
         <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setRange(12)" type="button">往後 12 個月</button></div>
