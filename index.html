@@ -8,7 +8,6 @@
   ✅ 使用說明：
     - 本頁為前端學費計算工具
     - 所有金額、規則可在主程式碼中直接調整
-    - 學費表與折扣規則建議獨立抽出（可考慮未來模組化）
 
   📌 功能邏輯摘要：
     1. 年級：國一～國三
@@ -24,13 +23,14 @@
 
   🧠 自動更新要做的事：
     - 再重新上傳github
-	- 上傳後再line公告記得重新整理
+	- 更新寫在網頁標題處
 -->
+
 
 
 <meta charset="utf-8"/>
 <link rel="icon" href="logo2.png" type="image/png">
-<title>林澈學費計算器 20260514更新</title>
+<title>林澈學費計算器 20260525更新</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2c3e50">
@@ -209,20 +209,27 @@ input[type=radio], input[type=checkbox] {
   gap: 20px;
   align-items: stretch;
 }
+
 .date-controls {
-  flex: 1.2;
+  flex: 1.5; /* 將左側的比例縮小 */
 }
 .date-notes {
-  flex: 1;
+  flex: 1.5; /* 將右側說明區塊的比例大幅加寬 */
   background-color: #f8fafc;
   border-radius: 8px;
   padding: 15px;
   font-size: 0.8em;
   color: #475569;
   border: 1px solid #e2e8f0;
+  overflow-x: auto; /* 加入此行：如果螢幕太小，會出現優雅的水平捲軸，避免破版 */
 }
 .date-notes ul { margin: 0; padding-left: 20px; }
-.date-notes li { margin-bottom: 2px; }
+.date-notes li { 
+  margin-bottom: 2px; 
+
+}
+
+
 .date-notes strong { color: #1e293b; display: inline-block; margin-top: 8px; }
 
 /* 科目按鈕：深藍底色，點擊變黃色 */
@@ -352,6 +359,17 @@ tr:nth-child(even) td { background-color: #f8fafc; }
 #gridModal.theme-next2 .month-btn.active { background-color: #d35400; border-color: #d35400; color: white;}
 #gridModal.theme-next2 .btn-confirm { background-color: #d35400; color: white; border-color: #d35400; }
 
+/* 過去年份按鈕樣式 */
+.year-past { 
+  border-bottom: 3px solid #cbd5e1; 
+  color: #64748b; 
+}
+
+/* 點選過去年份時，Modal 會切換為低調的灰藍色系 (theme-other) */
+#gridModal.theme-other .grid-container { border-top-color: #94a3b8; }
+#gridModal.theme-other .month-btn.active { background-color: #94a3b8; border-color: #94a3b8; color: white;}
+#gridModal.theme-other .btn-confirm { background-color: #94a3b8; color: white; border-color: #94a3b8; }
+
 @media screen and (max-width: 768px) {
   body { padding: 15px; }
   .date-section { flex-direction: column; gap: 15px; }
@@ -459,18 +477,18 @@ tr:nth-child(even) td { background-color: #f8fafc; }
       </ul>
 <strong>📌學費折扣-國一二</strong>
  <ul>
-<li>國一二舊生半年繳2科以下-1000/3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」</strong>
+<li>國一二舊生半年繳2科以下-1000，3科以上-2000，新舊生年繳*0.9，特殊折扣請用「自訂」</strong>
 </ul>
 
 <strong>📌學費折扣-國三繳到會考 (請用「自訂」)</strong>
  <ul>
-<li>7.8月舊生：9折。/新生：2科-3000，3科以上-5000</li>
-<li>09月舊生：-4000/-4000/-4000/-2000/-2000</li>
-<li>10月舊生：-3000/-3000/-3000/-1000/-1000</li>
-<li>11月舊生：-2000/-2000/-2000/-1000/-1000</li>
-<li>12月舊生：-2000/-2000/-2000/-1000/-1000</li>
-<li>01月舊生：-1000/-1000/-1000/-500/-500</li>
-<li>02月舊生：-1000/-1000/-1000/-500/-500</li>
+<li>7.8月舊生：9折 / 新生：1科.2科-3000，3科.4科.全科-5000</li>
+<li>09月舊生：-2000/-2000/-4000/-4000/-4000</li>
+<li>10月舊生：-1000/-1000/-3000/-3000/-3000</li>
+<li>11月舊生：-1000/-1000/-2000/-2000/-2000</li>
+<li>12月舊生：-1000/-1000/-2000/-2000/-2000</li>
+<li>01月舊生：-500/-500/-1000/-1000/-1000</li>
+<li>02月舊生：-500/-500/-1000/-1000/-1000</li>
 </ul>
     </div>
   </div>
@@ -506,10 +524,18 @@ tr:nth-child(even) td { background-color: #f8fafc; }
 <div id="gridModal" class="theme-curr">
   <div class="grid-container">
     <h3 class="grid-title">請選擇月份</h3>
+    
     <div class="grid-label">📍 年份</div>
     <div id="gridYear" class="btn-grid-year"></div>
+    
     <div class="grid-label">📍 月份</div>
     <div id="gridMonth" class="btn-grid-month"></div>
+
+    <div style="margin-top: -10px; margin-bottom: 20px; text-align: right;">
+      <span style="font-size: 0.8em; color: #64748b; margin-right: 8px;">📍 過去年份：</span>
+      <span id="gridPastYear"></span>
+    </div>
+
     <div style="display:flex; justify-content:flex-end; gap: 12px; margin-top: 10px;">
       <button class="ctrl-btn" onclick="document.getElementById('gridModal').style.display='none'" style="background:#e2e8f0; color:#334155; border:none;">取消</button>
       <button class="ctrl-btn btn-confirm" onclick="confirmGrid()">確定</button>
@@ -555,10 +581,14 @@ let selectedGridMonth = new Date().getMonth() + 1;
 
 function initGrid() {
   const yearDiv = document.getElementById('gridYear');
+  const pastYearDiv = document.getElementById('gridPastYear'); // 抓取過去年份的容器
   const monthDiv = document.getElementById('gridMonth');
   const currentYear = new Date().getFullYear();
-  let yHtml = '';
   
+  let yHtml = '';
+  let pastYHtml = ''; 
+  
+  // 1. 核心區：顯示今年與未來兩年 (大按鈕)
   for (let y = currentYear; y <= currentYear + 2; y++) {
     let yClass = 'year-other';
     if (y === currentYear) yClass = 'year-curr';
@@ -568,7 +598,14 @@ function initGrid() {
     yHtml += `<button type="button" class="month-btn year-btn ${yClass}" data-val="${y}" onclick="selectGridYear(${y})">${y}</button>`;
   }
   yearDiv.innerHTML = yHtml;
+
+  // 2. 過去年份區：顯示過去兩年 (利用 style 屬性將按鈕縮小，並靠右排列)
+  for (let y = currentYear - 2; y < currentYear; y++) {
+    pastYHtml += `<button type="button" class="month-btn year-btn year-past" data-val="${y}" onclick="selectGridYear(${y})" style="padding: 2px 8px; font-size: 0.85em; margin-left: 4px;">${y}</button>`;
+  }
+  pastYearDiv.innerHTML = pastYHtml;
   
+  // 3. 月份區
   let mHtml = '';
   for (let m = 1; m <= 12; m++) {
     mHtml += `<button type="button" class="month-btn mon-btn" data-val="${m}" onclick="selectGridMonth(${m})">${m}月</button>`;
