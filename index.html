@@ -214,7 +214,7 @@ input[type=radio], input[type=checkbox] {
   flex: 1.5; /* 將左側的比例縮小 */
 }
 .date-notes {
-  flex: 1.5; /* 將右側說明區塊的比例大幅加寬 */
+  flex: 1.4; /* 將右側說明區塊的比例大幅加寬 */
   background-color: #f8fafc;
   border-radius: 8px;
   padding: 15px;
@@ -439,9 +439,9 @@ tr:nth-child(even) td { background-color: #f8fafc; }
       
       <div style="margin-bottom: 6px; font-weight: 600; color:#475569; font-size: 0.9em;">🔸開始月份</div>
       <div style="display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 8px;">
-        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartThisMonth()" type="button">這個月</button></div>
-        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextMonth()" type="button">下個月</button></div>
-        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextNextMonth()" type="button">下下個月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartThisMonth()" type="button">本月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextMonth()" type="button">次月</button></div>
+        <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="setStartNextNextMonth()" type="button">次次月</button></div>
         <div class="ctrl-btn-wrap"><button class="ctrl-btn" onclick="enableStartManual()" type="button">自訂開始</button></div>
       </div>
       <input id="start" readonly="" class="date-display" style="margin-bottom: 15px;" type="month"/>
